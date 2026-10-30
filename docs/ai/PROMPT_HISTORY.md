@@ -159,3 +159,11 @@ User prompt (verbatim):
 > sure, let's fix f3
 
 AI assistance: reproduced future appeal text and assessment/scenario coupling with failing tests, then introduced generator revision 2 with academic original text and separately seeded shuffled scenario/assessment plans. Preserved walkthroughs and dated appeal-evidence boundaries. Added descriptive evaluation-only distribution summaries; regenerated the archive and Python 3.12/3.14 proof with matching per-file hashes and verified archive contents. Added seed-version/preservation tests; all 46 tests passed. Browser verification used a fresh isolated full v2 workspace, leaving existing cases/passwords intact. Documented the separate-workspace command and legacy warning. F4–F6 remain open, including full prompt-record reconciliation.
+
+## 2026-10-30 - Codex - completed-fix summary and manual reviewer guide
+
+User prompt (verbatim):
+
+> we can do this later, just summarize the fixes we Implemented till now, with how can a reviewer go through them manually
+
+AI assistance: deferred further audit fixes and expanded the existing reviewer walkthrough with a summary of F1–F3, isolated-workspace setup, explicit role changes, manual actions and expected results. Retained the interface tour and complete review/appeal journey, and linked the guide from README and the audit tracker. Cross-checked instructions against the forms, services and stored verification report; documentation changes do not constitute a new browser run or test-suite execution. The latest recorded suite remains 46 passing tests. F4–F6, including complete prompt-history reconciliation and actual candidate review, remain open.

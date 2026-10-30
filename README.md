@@ -74,7 +74,7 @@ Learners can add separate rebuttal evidence to their own cases and revise only e
 
 For a learner without a portal login, an administrator or support staff member can record an externally received response after recording notice. Open **Case actions → Record received learner response**, transcribe the learner's words and supply a source reference. The case and timeline identify the staff recorder, source and recorded time. Earlier response records remain in the timeline. The ten demo accounts stay unchanged; learners with linked accounts submit their own responses.
 
-**Explore demo cases** links to legitimate quotation, template overlap, multiple reviewers, and a successful appeal. Follow [WALKTHROUGH.md](docs/WALKTHROUGH.md) to create your own complete review and appeal. Permissions are enforced on the server, including learner ownership and decision author assignment.
+**Explore demo cases** links to legitimate quotation, template overlap, multiple reviewers, and a successful appeal. Follow [WALKTHROUGH.md](docs/WALKTHROUGH.md) for role-by-role manual checks of F1–F3, expected results, and a complete review/appeal journey. Permissions are enforced on the server, including learner ownership and decision author assignment.
 
 ## Verify and export
 

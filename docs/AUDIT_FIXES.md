@@ -2,6 +2,8 @@
 
 Audit baseline: `67a8ad0`, 2026-10-30. Findings are addressed separately, with verification and a commit before moving to the next item. The initial 31-test suite passed despite the reproduced gaps; passing it alone was insufficient.
 
+For setup, role switches and expected pass/fail observations, use the [manual reviewer walkthrough](WALKTHROUGH.md#completed-audit-fixes-manual-checks). F4–F6 are deferred; this documentation update does not implement additional fixes.
+
 | Finding | Status | Required follow-up |
 |---|---|---|
 | F1: learner-response dead end for unlinked learners | Fixed and verified | Staff capture of received correspondence now preserves source, recorder and response history |
