@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Assessment, EvidenceItem, Learner, Reviewer, Decision
+from .services import replaceable_evidence, role
 
 class PortalLoginForm(AuthenticationForm):
     """Keep the first-run instructions visible before visitors focus a field."""
@@ -45,10 +46,16 @@ class EvidenceForm(VersionForm):
     title = forms.CharField(max_length=160)
     excerpt = forms.CharField(max_length=10000, widget=forms.Textarea(attrs={"rows": 4}))
     source_reference = forms.CharField(max_length=240, help_text="Use an identifiable reference. Sources are displayed as text and never fetched.")
-    supersedes = forms.ModelChoiceField(queryset=EvidenceItem.objects.none(), required=False, label="New version of (optional)")
-    def __init__(self, *args, case, **kwargs):
+    supersedes = forms.ModelChoiceField(queryset=EvidenceItem.objects.none(), required=False,
+        label="Revise existing evidence (optional)", empty_label="Add as separate evidence")
+    def __init__(self, *args, case, user, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["supersedes"].queryset = case.evidence.filter(evidenceitem__isnull=True)
+        self.fields["supersedes"].queryset = replaceable_evidence(user, case)
+        self.fields["supersedes"].help_text = (
+            "You can revise only evidence you added. Add separate evidence to respond to a staff source or another contributor."
+            if role(user) == "learner" else
+            "Only current evidence versions are listed. Corrections retain the original record and identify you as the new version's author."
+        )
 
 class DecisionForm(VersionForm):
     outcome = forms.ChoiceField(choices=[("", "Select an outcome")] + Decision.OUTCOMES)

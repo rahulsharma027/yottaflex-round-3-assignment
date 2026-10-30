@@ -143,3 +143,11 @@ Clarification asked: For cases belonging to learners without logins, which workf
 User selected: Keep the ten demo accounts; let administrators/support record an externally received learner response with its source and recorder clearly identified (Recommended).
 
 AI assistance: audited source, original FAQ/submission guidelines and /docs, reproduced four functional/data issues in isolated tests, verified fresh setup and recorded accessibility/disclosure gaps. For F1 only, added a sourced external-response workflow with staff attribution, prior notice, source/state/account-link checks, retained snapshots and stale protection. Five additional regression tests bring the passing suite to 36. Browser verification used a separate workspace at desktop and phone sizes; live cases and demo accounts were preserved. Remaining audit findings are tracked in AUDIT_FIXES.md. This prompt record remains partial; the disclosure-reconciliation finding is not marked resolved.
+
+## 2026-10-30 - Codex - audit F2 evidence replacement
+
+User prompt (verbatim):
+
+> lets move to F2
+
+AI assistance: added a failing regression for learner supersession of staff evidence, then enforced a shared replacement policy in the authenticated form and service. Learners can add separate rebuttals and revise only their own current evidence within their own case; staff correction authority and retained decision/history references remain. Added five meaningful regression tests and adjusted the earlier late-evidence history test to use an authorized staff correction. All 41 tests passed, with migration/system/whitespace checks and isolated desktop/phone browser verification. Updated documentation and screenshots, preserved live cases and data, and prepared F2 as its own commit. F3–F6, including prompt-record reconciliation, remain open.

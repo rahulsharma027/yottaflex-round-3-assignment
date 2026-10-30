@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.test import TestCase, Client, override_settings
 from django.utils.html import escape
 from integrity import services
+from integrity.forms import DecisionForm, EvidenceForm
 from integrity.dataset import generate, TABLES
 from integrity.models import (
     Assessment, Assignment, Case, CaseEvent, Decision, EvidenceItem, Learner, Profile, Reviewer, SimilarityReport, Submission, TriageRecord,
@@ -109,10 +110,84 @@ class WorkflowTests(TestCase):
             services.add_evidence(self.admin, case.id, case.version, "Late material", "A new source.", "synthetic://late")
         case = services.submit_appeal(self.learner, case.id, case.version, "A new source requires an independent reconsideration.")
         previous = case.evidence.first()
-        case = services.add_evidence(self.learner, case.id, case.version, "Corrected excerpt", "Corrected synthetic source reference.", "synthetic://corrected", previous.id)
+        case = services.add_evidence(self.support, case.id, case.version, "Corrected excerpt", "Corrected synthetic source reference.", "synthetic://corrected", previous.id)
         self.assertEqual(case.evidence.count(), 2)
         self.assertTrue(case.evidence.filter(supersedes=previous).exists())
         self.assertEqual(case.decisions.get(phase="original").evidence.first().id, previous.id)
+
+    def test_learner_cannot_supersede_staff_evidence_or_remove_decision_choices(self):
+        case = self.prepare_review()
+        original = case.evidence.get()
+        before = (case.version, case.evidence.count(), case.events.count())
+        with self.assertRaises(PermissionDenied):
+            services.add_evidence(self.learner, case.id, case.version, "Replace source comparison",
+                "A learner attempts to replace the staff-authored source comparison.", "synthetic://learner/replacement", original.id)
+        case.refresh_from_db()
+        self.assertEqual((case.version, case.evidence.count(), case.events.count()), before)
+        self.assertTrue(DecisionForm(case=case).fields["evidence"].queryset.filter(pk=original.id).exists())
+        self.assertFalse(EvidenceItem.objects.filter(supersedes=original).exists())
+
+    def test_learner_can_add_rebuttal_and_revise_only_their_own_evidence(self):
+        case = self.prepare_review()
+        staff_item = case.evidence.get()
+        case = services.add_evidence(self.learner, case.id, case.version, "Learner rebuttal",
+            "My dated draft provides attribution and an independent explanation.", "synthetic://learner/draft")
+        own_item = case.evidence.get(added_by=self.learner.username)
+        case = services.add_evidence(self.learner, case.id, case.version, "Revised learner rebuttal",
+            "My corrected draft reference identifies the dated bibliography.", "synthetic://learner/corrected-draft", own_item.id)
+        latest = case.evidence.get(supersedes=own_item)
+        choices = DecisionForm(case=case).fields["evidence"].queryset
+        self.assertTrue(choices.filter(pk=staff_item.id).exists())
+        self.assertTrue(choices.filter(pk=latest.id).exists())
+        self.assertFalse(choices.filter(pk=own_item.id).exists())
+        self.assertEqual(latest.added_by, self.learner.username)
+        self.assertTrue(case.evidence.filter(pk=own_item.id).exists())
+        case = services.record_decision(self.reviewer, case.id, case.version, "cleared",
+            "The staff source and the learner's corrected draft explain the overlap.", [staff_item.id, latest.id])
+        self.assertEqual(case.decisions.get().evidence.count(), 2)
+
+    def test_forged_learner_evidence_replacement_is_rejected_by_form(self):
+        case = self.prepare_review()
+        staff_item = case.evidence.get()
+        self.client.force_login(self.learner)
+        payload = {"action": "evidence", "version": case.version, "title": "My rebuttal",
+            "excerpt": "Please consider the dated bibliography and my source notes.",
+            "source_reference": "synthetic://learner/notes", "supersedes": staff_item.id, "added_by": self.support.username}
+        rejected = self.client.post(f"/cases/{case.id}/", payload)
+        self.assertEqual(rejected.status_code, 200)
+        self.assertContains(rejected, "Select a valid choice")
+        self.assertContains(rejected, "My rebuttal")
+        self.assertFalse(case.evidence.filter(supersedes=staff_item).exists())
+        payload["supersedes"] = ""
+        self.assertEqual(self.client.post(f"/cases/{case.id}/", payload).status_code, 302)
+        self.assertEqual(case.evidence.get(title="My rebuttal").added_by, self.learner.username)
+
+    def test_evidence_replacement_choices_follow_case_and_actor_permissions(self):
+        case = self.prepare_review()
+        staff_item = case.evidence.get()
+        case = services.add_evidence(self.learner, case.id, case.version, "Learner draft", "My independent dated source notes.", "synthetic://learner/draft")
+        own_item = case.evidence.get(added_by=self.learner.username)
+        self.assertEqual(list(EvidenceForm(case=case, user=self.learner).fields["supersedes"].queryset), [own_item])
+        for actor in [self.admin, self.platform_admin, self.support, self.reviewer]:
+            with self.subTest(actor=actor.username):
+                self.assertCountEqual(EvidenceForm(case=case, user=actor).fields["supersedes"].queryset, [staff_item, own_item])
+        other = self.unlinked_learner_case()
+        self.assertFalse(EvidenceForm(case=other, user=self.learner).fields["supersedes"].queryset.exists())
+
+    def test_evidence_revisions_reject_stale_branch_and_cross_case_requests(self):
+        case = self.prepare_review()
+        other = self.prepare_review()
+        foreign = other.evidence.get()
+        with self.assertRaisesMessage(ValidationError, "from this case"):
+            services.add_evidence(self.support, case.id, case.version, "Wrong case", "Cross-case correction is not valid.", "synthetic://wrong", foreign.id)
+        original = case.evidence.get()
+        old_version = case.version
+        case = services.add_evidence(self.support, case.id, old_version, "Corrected source", "A staff correction with a dated source reference.", "synthetic://staff/corrected", original.id)
+        with self.assertRaisesMessage(ValidationError, "already submitted"):
+            services.add_evidence(self.support, case.id, old_version, "Duplicate correction", "Repeat the same staff correction request.", "synthetic://staff/corrected", original.id)
+        with self.assertRaisesMessage(ValidationError, "current evidence version"):
+            services.add_evidence(self.admin, case.id, case.version, "Branch correction", "Attempt a second branch from the old version.", "synthetic://staff/branch", original.id)
+        self.assertEqual(case.evidence.filter(supersedes=original).count(), 1)
 
     def test_pending_appeal_cannot_be_closed(self):
         case = Case.objects.get(pk="INT-2026-000001")

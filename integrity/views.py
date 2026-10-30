@@ -71,6 +71,8 @@ def case_detail(request, pk):
     action_forms = {}
     for name, form_class in actions.items():
         kwargs = {"case": case} if name in {"assign", "evidence", "decision"} else {}
+        if name == "evidence":
+            kwargs["user"] = request.user
         action_forms[name] = form_class(request.POST if name == bound_action else None, initial={"version": case.version}, auto_id=f"id_{name}_%s", **kwargs)
     if request.method == "POST":
         if bound_action not in actions:

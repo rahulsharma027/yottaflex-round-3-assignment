@@ -12,6 +12,10 @@ At the user's request, version `v1.1.0` collects the guided login, interactive r
 
 The audit exposed cases whose learner had no login, while every decision required a learner response. The user selected a sourced external-response workflow to preserve the ten-account demo. Added a staff-only service/form for administrators/support, with server-side source, notice, account-link, state and stale-version checks. Full response/source snapshots remain in attributed events; the latest external response is shown with its recorder and timestamp in the case file. Existing direct learner ownership and decision prerequisites remain enforced. No learner credentials, migration or generated dataset were changed. AUDIT_FIXES.md tracks this resolved issue and the remaining findings separately.
 
+## Second prioritized audit fix: evidence replacement authority
+
+Reproduced the audit exploit with a failing regression before changing the service. Added a shared current-evidence replacement policy: learners need both ownership of the case and authorship of the item; staff retain existing correction permissions. EvidenceForm now requires the authenticated user, filters replacement choices through the shared policy and explains separate rebuttals. The service checks the same policy inside its versioned transaction. No historical rows or decision references are rewritten. Added five regression tests and updated the existing history test to use an authorized correction. F2 is handled as a separate commit after F1; later findings remain open.
+
 ## 2026-10-30 — implementation session
 
 Reviewed AGENTS.md, challenge notes, assignment breakdown, reusable project prompt, reviewer experience, prompt history, and the existing Yotta remote. Original attachment files were not present; used their recorded interpretation and stated that limit. Copied supporting documentation into this repository so a reviewer needs no parent-folder files. Parent copies remain as preparation history.

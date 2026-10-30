@@ -59,6 +59,8 @@ The assignment switch appears only for reviewers (including appeal reviewers). A
 
 Case files lead with student details and the original submitted work, then evidence, learner response, decisions and the complete timeline. Section links jump directly to each part or to the case actions. The submitted text remains escaped, and learner access remains limited to their own cases.
 
+Learners can add separate rebuttal evidence to their own cases and revise only evidence they authored. **Revise existing evidence** lists only permitted current versions; choose **Add as separate evidence** to submit a rebuttal. Staff can record corrections, with the original versions and previous decision references retained.
+
 For a learner without a portal login, an administrator or support staff member can record an externally received response after recording notice. Open **Case actions → Record received learner response**, transcribe the learner's words and supply a source reference. The case and timeline identify the staff recorder, source and recorded time. Earlier response records remain in the timeline. The ten demo accounts stay unchanged; learners with linked accounts submit their own responses.
 
 **Explore demo cases** links to legitimate quotation, template overlap, multiple reviewers, and a successful appeal. Follow [WALKTHROUGH.md](docs/WALKTHROUGH.md) to create your own complete review and appeal. Permissions are enforced on the server, including learner ownership and decision author assignment.

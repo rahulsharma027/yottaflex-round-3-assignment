@@ -8,7 +8,7 @@ Source: interpretation in PROJECT_BREAKDOWN.md and LLM_PROJECT_PROMPT.md. Origin
 | Submissions, synthetic reports and versioned thresholds | services, report screens, IntegrityRule snapshot | Score reconciliation and report tests |
 | Warnings never automatically become guilt | Explicit triage and human decision services | High-score test creates no case/decision |
 | Eligibility, conflicts, multiple reviewers | Assignment, ReviewerConflict, reassignment history | Conflict/permission/stale tests |
-| Evidence provenance and retained versions | EvidenceItem.supersedes; DecisionEvidence; events | Late/cross-case/version tests |
+| Evidence provenance and retained versions | EvidenceItem.supersedes; DecisionEvidence; events; actor-aware replacement policy | Late/cross-case/stale/version/ownership tests; forged learner replacement rejected |
 | Human decisions and learner opportunity | Notice/response/evidence/rationale prerequisites; attributed external-response route for learners without logins | Missing-prerequisite, role/stale rejection and complete unlinked-learner workflow tests |
 | Independent appeal and closure | Appeal and retained decisions | Full successful appeal test; independence/closure rejection |
 | Atomic traceability and state changes | Transactional events/triage; versions/receipts | Rollback and duplicate/stale tests; lifecycle replay |

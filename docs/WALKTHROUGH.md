@@ -40,6 +40,7 @@ Staff cannot use this route for learners who have linked portal accounts. Those 
 
 ### Authorization and lifecycle checks
 
+- As learner, add a separate rebuttal. **Revise existing evidence** should list only your own current items, never the staff source comparison. Revise your rebuttal and verify both versions remain in the case history. Staff corrections retain their normal authority and provenance.
 - Dr. Evan Cole cannot review LRN-00001: recorded supervisor conflict.
 - An unassigned administrator cannot author a decision, including through a forged request.
 - Decisions need evidence, rationale, notice and response.

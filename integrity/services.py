@@ -22,6 +22,15 @@ def require_role(user, allowed):
 def can_view(user, case):
     return role(user) in STAFF or case.report.submission.learner.user_id == user.pk
 
+def replaceable_evidence(user, case):
+    """Shared replacement policy for forms and the transactional write boundary."""
+    current = case.evidence.filter(evidenceitem__isnull=True)
+    if role(user) in STAFF:
+        return current
+    if role(user) == "learner" and can_view(user, case):
+        return current.filter(added_by=user.username)
+    return current.none()
+
 def allocate(prefix, width=6, initial=0):
     counter, _ = Counter.objects.get_or_create(name=prefix, defaults={"value": initial})
     Counter.objects.filter(pk=prefix).update(value=F("value") + 1)
@@ -157,6 +166,8 @@ def add_evidence(user, case_id, version, title, excerpt, source_reference, super
         previous = EvidenceItem.objects.filter(pk=supersedes_id, case=case).first()
         if not previous or EvidenceItem.objects.filter(supersedes=previous).exists():
             raise ValidationError("Choose a current evidence version from this case to supersede.")
+        if not replaceable_evidence(user, case).filter(pk=previous.id).exists():
+            raise PermissionDenied("You can revise only evidence you added. Add a separate rebuttal to respond to another contributor's evidence.")
     item = EvidenceItem.objects.create(id=allocate(f"EVD-{case.id}-", width=3, initial=case.evidence.count()),
         case=case, title=title, excerpt=excerpt, source_reference=source_reference, added_by=user.username, supersedes=previous)
     event(case, user, "evidence_added", f"{title}. Source: {source_reference}" +
