@@ -6,7 +6,9 @@ A local workspace that takes synthetic similarity flags through human triage, ev
 
 Built with Django, SQLite, and responsive custom templates. Everything required to run and review the project is in this repository; nothing depends on its parent directory.
 
-![ACI Portal By Yotta reviewer workspace](docs/screenshots/reviewer-workspace-desktop.png)
+The interface pairs dark navy navigation with white cards, light blue-gray pages and blue action/selection accents.
+
+![ACI Portal By Yotta workspace](docs/screenshots/blue-workspace-desktop.png)
 
 ## Run locally
 
@@ -35,7 +37,7 @@ Stop the server before resetting. A reset requires both flags, retains the signi
 
 The login page includes a **Your first sign-in** guide. Select **Use this username** for `academic-admin`, then paste that account’s generated password from the launcher terminal. **Can’t find the password?** explains the credentials file and how to print the details again with `python run.py --setup-only`. **Want to try a different role?** describes the accounts and provides username shortcuts. Each account still requires its own password.
 
-After signing in as administrator, start with **Explore demo cases**, then try **Flag triage**. See the [desktop guide](docs/screenshots/login-guide-desktop.png) and [phone guide](docs/screenshots/login-guide-phone.png).
+After signing in as administrator, start with **Explore demo cases**, then try **Flag triage**. See the [desktop guide](docs/screenshots/blue-login-desktop.png) and [phone guide](docs/screenshots/blue-login-phone.png).
 
 ## Explore
 

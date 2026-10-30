@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Navy navigation and login branding, blue actions/selection/focus accents, and white/light blue-gray content surfaces throughout the portal; distinct case-status colors are retained.
+
 ## 1.1.0 — 2026-10-30
 
 ### Added

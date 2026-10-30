@@ -117,3 +117,11 @@ User prompt (verbatim):
 > looking good as of now, commit it to git as version 1.1
 
 AI assistance: prepared version 1.1.0 release notes and README metadata, preserving v1.0.0. Used the changelog-generator skill to lint the four enhancement commits and generate a release draft, then curated user-facing notes. The full 31-test regression suite passed. Prepared a release commit and annotated tag for the connected public repository; publication is verified through Git separately rather than inferred from preparation.
+
+## 2026-10-30 - Codex - navy and blue theme
+
+User prompt (verbatim):
+
+> ok, got it, that would be a lot confusing, as per UI we are using green on the left side navigation, can me make it the theme adapt dark blue/ blueish, center pages can be of white/lighter theme, a little preference from my side
+
+AI assistance: applied navy/blue branding with white and light blue-gray main surfaces through the existing CSS. Preserved distinct status colors and all workflows. Used frontend-design, responsive layout and interface-polish skills; inspected workspace, case, login, phone navigation, reviewer scope switching and keyboard focus in the browser at representative widths. Checked CSS variable references, contrast samples, Django system checks and Git whitespace, then updated documentation and screenshots. No data or release tags were changed.

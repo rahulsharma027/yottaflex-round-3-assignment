@@ -66,4 +66,10 @@ The first status tab was labelled All cases while retaining the current assignme
 
 Assignment scope is now offered only to the instructor role used by original and appeal reviewers. Academic/platform administrators and support always use the authorized workspace scope; learners retain their ownership scope. For these actors, an explicit `assignee=mine` URL is normalized to the appropriate default rather than showing a misleading empty assignment queue. The existing template capability flag controls visibility, so no duplicated role checks or CSS changes are required.
 
+## 2026-10-30 — navy and blue theme preference
+
+User requested dark blue navigation with light central pages. Replaced the forest/lime brand tokens with navy `#152e52`, blue `#245cb0`, ice `#bedbff`, and a light canvas `#f5f7fb`. Shared tokens cover primary actions, hover, selected scope/cards, focus and supporting surfaces. Updated the login panel/guide, tables, form controls, submission papers, section markers and timeline accents to remove the old green cast. Status badges, warning/error feedback and success notices retain their semantic colors. Dark navigation uses an ice focus outline, while light surfaces use a blue outline.
+
+Kept the existing plain CSS, type, layout, local assets and workflow behavior. No theme-switcher, extra dependency or account setting was needed. This is an unreleased enhancement after v1.1.0; published version tags remain unchanged. README screenshots now show the blue workspace/login; earlier images remain historical verification.
+
 Case files now present student ID/programme/email, the full escaped submission text and assessment metadata, evidence, learner response, retained decisions and full dated timeline. A section bar and case-actions link help on small screens; team/actions remain alongside on desktop. Domain write services and the v1.0.0 baseline tag are unchanged. Existing local reviewer data was preserved.

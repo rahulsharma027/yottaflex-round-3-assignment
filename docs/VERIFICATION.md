@@ -99,3 +99,27 @@ Browser inspection confirmed that the appeal reviewer still has the switch and t
 ## Version 1.1.0 release checks
 
 The full 31-test suite passed on Python 3.14.10 (1.707 s test-body time), with no Django system-check issues. Conventional-commit linting passed all four enhancement commits after `v1.0.0`; the generated release draft recommended a minor version bump. Migration-drift, JavaScript syntax and Git whitespace checks passed; local credentials, tooling environments and SQLite files are not tracked. Existing browser verification above covers the released interface changes. Version 1.0.0 remains the immutable baseline; 1.1.0 requires no data reset or schema migration.
+
+## Navy and blue theme verification
+
+Scope: full review of the palette change in Django templates/plain CSS; workspace, case file, login and reviewer scope controls. Browser screenshots were inspected at 375, 414, 768, 1024 and 1440 px widths across those surfaces (not every page at every width). Checked the phone Menu/Close menu interaction, reviewer All cases / Assigned to me switching (300 / 255 live results), and keyboard Tab focus on Sort by. No browser console errors were recorded. Existing horizontal tab/table regions retain their own scrolling. No live case edits or reseeding occurred.
+
+| Polish category | Evidence inspected | Result |
+|---|---|---|
+| Typography | Workspace/case/login screenshots | Existing type retained; dark blue body and neutral text remain readable |
+| Surfaces | Navigation, cards, guides, forms, papers | Navy shell with light content; selected states visible |
+| Animations | Existing queue navigation at normal speed | No motion changed; 10% replay not performed for this color-only change |
+| Icons | Sidebar, summary and login screenshots | Existing currentColor icons follow the updated palette |
+| Performance | CSS diff and browser logs | Shared variables; no new assets, runtime or libraries |
+
+| Severity | Location | Before | After | Why |
+|---|---|---|---|---|
+| LOW | static/app.css root/sidebar/login selectors | Forest/lime branding | Navy/ice branding and cool secondary text | Applies the user's preferred palette consistently |
+| LOW | static/app.css primary/selected/focus selectors | Green interaction accents | Blue accents; ice focus on dark navigation | Keeps controls and keyboard focus clear on each surface |
+| LOW | static/app.css supporting surface selectors | Green-tinted content surfaces | White and light blue-gray surfaces | Aligns central pages with the requested lighter theme |
+
+Considered preserving the old green guidance panels, but their brand tint conflicted with the new blue shell. Considered making every status blue, but retained distinct semantic badges to preserve quick recognition. No extra motion or CSS framework was introduced.
+
+`manage.py check` passed with no issues; Git whitespace validation passed. CSS variable-reference inspection found no undefined variables. Calculated contrast samples: white/primary blue 6.50:1, body/canvas 11.71:1, muted/white 5.04:1, muted/canvas 4.70:1, sidebar navigation/navy 10.19:1 and sidebar secondary/navy 8.04:1. The blue focus ring measures 4.63:1 against white and 4.32:1 against the canvas. These samples are not a full accessibility audit; assistive-technology testing and every secondary-page/state combination were not repeated. Domain regression tests were not rerun for CSS/documentation-only changes.
+
+No actionable interface-polish findings remain in the inspected palette scope. Broader secondary-page and assistive-technology checks remain unverified. Screenshots: [workspace desktop](screenshots/blue-workspace-desktop.png), [workspace phone](screenshots/blue-workspace-phone.png), [reviewer queue/focus](screenshots/blue-reviewer-queue-desktop.png), [case desktop](screenshots/blue-case-desktop.png), [case phone](screenshots/blue-case-phone.png), [login desktop](screenshots/blue-login-desktop.png), [login phone](screenshots/blue-login-phone.png).
