@@ -1,0 +1,26 @@
+{% load static %}<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ title|default:"Welcome" }} · Yotta</title><meta name="description" content="A considered approach to academic integrity. Local synthetic case-management workspace.">
+<link rel="stylesheet" href="{% static 'app.css' %}"><script src="{% static 'app.js' %}" defer></script></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
+{% if user.is_authenticated %}<div class="app-shell">
+<aside class="sidebar" aria-label="Workspace navigation">
+<a class="brand" href="{% url 'cases' %}"><span class="brand-mark" aria-hidden="true">y.</span><span>yotta<span class="brand-caption">ACADEMIC INTEGRITY</span></span></a>
+<button class="nav-toggle button secondary" type="button" aria-expanded="false" aria-controls="workspace-nav">Menu</button>
+<div class="workspace-label"><span class="workspace-symbol" aria-hidden="true">N</span><span>Northfield University<small>Synthetic demonstration</small></span></div>
+<nav id="workspace-nav" aria-label="Main"><span class="nav-label">WORKSPACE</span>
+<a class="nav-item {% if section == 'cases' or section == 'case-detail' %}active{% endif %}" href="{% url 'cases' %}">{% include 'integrity/icon.html' with name='grid' %}<span>Cases</span><span class="nav-count">{{ nav_cases }}</span></a>
+{% if current_role != 'learner' %}<a class="nav-item {% if section == 'flags' %}active{% endif %}" href="{% url 'flags' %}">{% include 'integrity/icon.html' with name='flag' %}<span>Flag triage</span><span class="nav-count">{{ nav_flags }}</span></a>{% endif %}
+<a class="nav-item {% if section == 'submissions' or section == 'submission-detail' or section == 'submission-new' %}active{% endif %}" href="{% url 'submissions' %}">{% include 'integrity/icon.html' with name='file' %}<span>Submissions</span></a>
+<a class="nav-item" href="{% url 'cases' %}?state=appeal">{% include 'integrity/icon.html' with name='return' %}<span>Appeals</span><span class="nav-count">{{ nav_appeals }}</span></a>
+<span class="nav-label nav-gap">GOVERNANCE</span>
+<a class="nav-item {% if section == 'rules' %}active{% endif %}" href="{% url 'rules' %}">{% include 'integrity/icon.html' with name='book' %}<span>Integrity policy</span></a>
+{% if is_admin %}<a class="nav-item {% if section == 'validation' %}active{% endif %}" href="{% url 'validation' %}">{% include 'integrity/icon.html' with name='shield' %}<span>Data & validation</span></a>{% endif %}
+{% if current_role != 'learner' %}<a class="nav-item {% if section == 'walkthrough' %}active{% endif %}" href="{% url 'walkthrough' %}">{% include 'integrity/icon.html' with name='compass' %}<span>Explore demo cases</span></a>{% endif %}
+</nav><div class="sidebar-bottom"><div class="principle"><span class="mini-spark" aria-hidden="true">✳</span><p>A signal starts a conversation.<br><strong>It never decides the outcome.</strong></p></div>
+<div class="local-label"><span class="live-dot"></span> Local workspace <span>·</span> Synthetic data</div></div></aside>
+<div class="content-shell"><header class="topbar"><div class="breadcrumbs">Workspace <span>/</span> {{ title }}</div><div class="identity"><span class="avatar">{{ user.username|first|upper }}</span><div><strong>{{ user.first_name|default:user.username }}</strong><small>{{ role_label }}</small></div><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-button" type="submit">Sign out</button></form></div></header>
+<main id="main" class="main" tabindex="-1">{% for message in messages %}<div class="toast {{ message.tags }}" role="status">{% include 'integrity/icon.html' with name='check' %} {{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main>
+<footer class="page-footer"><span>Yotta · A considered approach to academic integrity.</span><span>Local demo / All records are synthetic</span></footer></div></div>
+{% else %}<main id="main" class="auth-main" tabindex="-1">{% block auth_content %}{% endblock %}</main>{% endif %}
+</body></html>

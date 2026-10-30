@@ -1,0 +1,15 @@
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{% if name == 'grid' %}<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+{% elif name == 'flag' %}<path d="M5 21V4c5-4 9 4 14 0v11c-5 4-9-4-14 0"/>
+{% elif name == 'file' %}<path d="M14 2H5v20h14V7z M14 2v5h5 M8 12h8 M8 16h6"/>
+{% elif name == 'return' %}<path d="m8 4-5 5 5 5 M3 9h10a7 7 0 0 1 0 14" transform="translate(0 -2)"/>
+{% elif name == 'book' %}<path d="M12 5v16 M12 5C8 2 4 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-2-1-6-2-10 1"/>
+{% elif name == 'shield' %}<path d="m12 2 9 4v6c0 6-9 10-9 10S3 18 3 12V6z m-4 10 3 3 5-6"/>
+{% elif name == 'compass' %}<circle cx="12" cy="12" r="9"/><path d="m16 8-2 6-6 2 2-6z"/>
+{% elif name == 'check' %}<path d="m5 12 4 4L19 6"/>
+{% elif name == 'search' %}<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>
+{% elif name == 'arrow' %}<path d="M4 12h16 m-6-6 6 6-6 6"/>
+{% elif name == 'plus' %}<path d="M12 5v14 M5 12h14"/>
+{% elif name == 'clock' %}<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+{% elif name == 'people' %}<circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3 M16 4a3 3 0 0 1 0 6 M18 14c3 1 3 4 3 7"/>
+{% else %}<circle cx="12" cy="12" r="9"/><path d="M12 11v6 M12 7h.01"/>{% endif %}</svg>
