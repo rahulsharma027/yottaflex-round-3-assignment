@@ -28,7 +28,7 @@ def paginate(request, qs):
 def case_list(request):
     qs = scoped_cases(request.user)
     current_role = services.role(request.user)
-    can_filter_assignments = current_role in services.ADMINS | {"instructor"}
+    can_filter_assignments = current_role == "instructor"
     default_assignee = "mine" if current_role == "instructor" else "all"
     assignee = request.GET.get("assignee", default_assignee)
     if assignee not in {"mine", "all"} or not can_filter_assignments:

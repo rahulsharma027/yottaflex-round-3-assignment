@@ -53,6 +53,8 @@ Additional instructor accounts `reviewer-theo`, `reviewer-anika` and `reviewer-e
 
 Reviewer accounts open **Assigned to me**, sorted by case opening date newest first. Select **All cases** above the status tabs to switch scope immediately, or **Assigned to me** to return. **All statuses** clears only the status filter. Summary cards show counts within the selected scope; selecting one updates and smoothly scrolls to its filtered queue. Search, status, assignment, sorting and pagination remain in the URL when returning from a case.
 
+The assignment switch appears only for reviewers (including appeal reviewers). Administrators and support see all authorized cases; learners see only their own cases.
+
 Case files lead with student details and the original submitted work, then evidence, learner response, decisions and the complete timeline. Section links jump directly to each part or to the case actions. The submitted text remains escaped, and learner access remains limited to their own cases.
 
 **Explore demo cases** links to legitimate quotation, template overlap, multiple reviewers, and a successful appeal. Follow [WALKTHROUGH.md](docs/WALKTHROUGH.md) to create your own complete review and appeal. Permissions are enforced on the server, including learner ownership and decision author assignment.

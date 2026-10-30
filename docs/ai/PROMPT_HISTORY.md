@@ -101,3 +101,11 @@ User prompt (verbatim):
 > for a reviewer assigned to me button is working and set to default, going back to all cases is not working
 
 AI assistance: found that the All cases status tab preserved the Assigned to me scope. Added explicit immediate assignment-scope links, renamed the status reset All statuses, and removed the redundant assignment dropdown. Added a regression that follows rendered links in both directions and verifies retained filters and reset pagination. All 31 tests passed; desktop and phone browser checks confirmed immediate switching and browser history. Documented results and screenshots; no live cases were edited.
+
+## 2026-10-30 - Codex - reviewer-only assignment controls
+
+User prompt (verbatim):
+
+> we can remove Assigned to me filter on the actors that don't require it, else it will be a little confusing.
+
+AI assistance: restricted assignment-scope controls to instructor/reviewer accounts, including appeal reviewers. Other actors ignore stale Assigned to me query parameters while keeping their authorized scope. Expanded workflow role tests to cover both administrator roles, support and learners; all 25 workflow tests passed. Inspected the appeal reviewer and administrator queues in the browser and the administrator layout at desktop and phone sizes. Updated documentation and saved a screenshot; case data was not changed.

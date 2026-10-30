@@ -12,6 +12,8 @@ On the login page, **Your first sign-in** recommends `academic-admin`. Use the u
 
 Reviewer accounts initially show **Assigned to me**, newest opened cases first. Select **All cases** above the status tabs for the wider authorized workspace; select **Assigned to me** to return. These scope controls apply immediately. **All statuses** clears only the status filter. Click a summary card to filter and move smoothly down to the queue; tabs, search and pagination retain the selected assignment scope. Opening a case and using Back to case queue preserves those choices.
 
+Only reviewers, including appeal reviewers, see the assignment switch. Administrators and support start with all authorized cases; learners have their own cases without assignment controls.
+
 In the case file, read Student details → Submitted work → Evidence → Response → Decisions → Timeline. The section bar and Case actions link avoid scrolling through the entire file to find a specific part.
 
 1. As `learner`, create a submission with raw 75, quote 10 and template 5. Adjusted score is 60%. A flag appears; no automatic case or misconduct decision.

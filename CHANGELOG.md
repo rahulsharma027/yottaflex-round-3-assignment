@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Show assignment-scope controls only for reviewers; administrator, support and learner queues omit irrelevant Assigned to me controls and ignore stale assignment-scope URLs.
 - Fixed ambiguous reviewer scope navigation: Assigned to me and All cases now switch immediately; the separate status-reset tab is labelled All statuses.
 - Interactive summary cards filter and smoothly scroll to the queue, with selected-state feedback, live result announcements and normal GET fallbacks.
 - Reviewers default to current Assigned to me cases, newest opening date first; assignment scope is separate from sorting and retained across filters, pagination and case return links.

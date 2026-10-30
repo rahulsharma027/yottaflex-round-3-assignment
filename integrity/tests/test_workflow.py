@@ -20,7 +20,7 @@ class WorkflowTests(TestCase):
             model = apps.get_model("integrity", table)
             fields = {field.attname: field for field in model._meta.concrete_fields}
             model.objects.bulk_create([model(**{k: fields[k].to_python(v) for k,v in row.items()}) for row in data[table]])
-        for name, role in [("admin", "academic_admin"), ("reviewer", "instructor"), ("appeal", "instructor"),
+        for name, role in [("admin", "academic_admin"), ("platform_admin", "platform_admin"), ("reviewer", "instructor"), ("appeal", "instructor"),
                            ("conflicted", "instructor"), ("learner", "learner"), ("support", "support")]:
             user = User.objects.create_user(name, password="test-only-password")
             Profile.objects.create(user=user, role=role)
@@ -230,6 +230,7 @@ class WorkflowTests(TestCase):
         ids = [case.id for case in response.context["page"]]
         self.assertEqual(response.context["assignee"], "mine")
         self.assertEqual(response.context["sort"], "newest")
+        self.assertContains(response, 'aria-label="Case assignment scope"')
         self.assertEqual(ids, ["INT-2026-000003", "INT-2026-000001"])
         self.assertNotIn(unassigned.id, ids)
         self.assertEqual(response.context["counts"]["all"], 2)
@@ -284,15 +285,21 @@ class WorkflowTests(TestCase):
         self.assertContains(switched, "All statuses")
 
     def test_assignment_scope_preserves_actor_access_boundaries(self):
-        for actor in [self.admin, self.support]:
+        for actor in [self.admin, self.platform_admin, self.support]:
             self.client.force_login(actor)
-            response = self.client.get("/")
-            self.assertEqual(response.context["assignee"], "all")
-            self.assertEqual(response.context["counts"]["all"], 3)
+            for params in [{}, {"assignee": "mine"}]:
+                with self.subTest(actor=actor.username, params=params):
+                    response = self.client.get("/", params)
+                    self.assertEqual(response.context["assignee"], "all")
+                    self.assertEqual(response.context["counts"]["all"], 3)
+                    self.assertNotContains(response, 'aria-label="Case assignment scope"')
+                    self.assertNotContains(response, "Assigned to me")
         self.client.force_login(self.learner)
         for assignee in ["all", "mine"]:
             response = self.client.get("/", {"assignee": assignee})
             self.assertEqual([case.id for case in response.context["page"]], ["INT-2026-000001"])
+            self.assertNotContains(response, 'aria-label="Case assignment scope"')
+            self.assertNotContains(response, "Assigned to me")
         self.assertEqual(self.client.get("/cases/INT-2026-000002/").status_code, 404)
 
     def test_case_file_includes_own_student_details_and_escaped_original_work(self):
