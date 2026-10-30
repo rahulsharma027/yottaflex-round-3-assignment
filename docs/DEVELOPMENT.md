@@ -4,6 +4,10 @@
 
 The user requested preserving the current implementation as version 1 before further interface and workflow enhancements. `CHANGELOG.md` and the annotated `v1.0.0` Git tag identify this baseline. Subsequent improvements should preserve the tag and receive their own commits/version notes.
 
+## Version 1.1 release
+
+At the user's request, version `v1.1.0` collects the guided login, interactive role-specific queues, structured case files and subsequent assignment-scope fixes. Release notes were generated from the four conventional commits since `v1.0.0` and edited for clarity. The original baseline tag is preserved. No runtime dependency or database migration changed in this release.
+
 ## 2026-10-30 — implementation session
 
 Reviewed AGENTS.md, challenge notes, assignment breakdown, reusable project prompt, reviewer experience, prompt history, and the existing Yotta remote. Original attachment files were not present; used their recorded interpretation and stated that limit. Copied supporting documentation into this repository so a reviewer needs no parent-folder files. Parent copies remain as preparation history.
@@ -36,7 +40,7 @@ Meaningful local commits group workflow/interface, data/tests/proof, and documen
 
 ## Remaining handoff work
 
-Candidate must personally review, run and explain the implementation, and record that honestly. Reconcile the partial prompt record with complete exports from every AI tool used and compare requirements against original attachments. Version 1.0.0 was published to the public remote; subsequent unreleased enhancements may remain local, so check Git status and publish reviewed changes before portal submission. Verify the public remote, then submit its URL under the invitation's instructions before the deadline. See VERIFICATION.md for exact platform/testing limitations.
+Candidate must personally review, run and explain the implementation, and record that honestly. Reconcile the partial prompt record with complete exports from every AI tool used and compare requirements against original attachments. Version 1.1.0 collects the reviewed interface enhancements after the preserved 1.0.0 baseline. For subsequent work, check Git status and publish reviewed changes before portal submission. Verify the public remote, then submit its URL under the invitation's instructions before the deadline. See VERIFICATION.md for exact platform/testing limitations.
 
 ## 2026-10-30 — portal branding
 

@@ -1,6 +1,6 @@
 # ACI (Academic Integrity) Portal By Yotta
 
-**Version 1 · `v1.0.0`** — initial working baseline. See [release notes](CHANGELOG.md). Future interface and workflow enhancements build on this tagged version.
+**Version 1.1 · `v1.1.0`** — guided sign-in, interactive reviewer queues, and clearer case files. See [release notes](CHANGELOG.md). The initial baseline remains available as `v1.0.0`.
 
 A local workspace that takes synthetic similarity flags through human triage, evidence review, reasoned decisions, and independent appeals. A score starts a review; it never decides guilt.
 

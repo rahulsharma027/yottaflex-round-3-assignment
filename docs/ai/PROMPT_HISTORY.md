@@ -109,3 +109,11 @@ User prompt (verbatim):
 > we can remove Assigned to me filter on the actors that don't require it, else it will be a little confusing.
 
 AI assistance: restricted assignment-scope controls to instructor/reviewer accounts, including appeal reviewers. Other actors ignore stale Assigned to me query parameters while keeping their authorized scope. Expanded workflow role tests to cover both administrator roles, support and learners; all 25 workflow tests passed. Inspected the appeal reviewer and administrator queues in the browser and the administrator layout at desktop and phone sizes. Updated documentation and saved a screenshot; case data was not changed.
+
+## 2026-10-30 - Codex - version 1.1 release
+
+User prompt (verbatim):
+
+> looking good as of now, commit it to git as version 1.1
+
+AI assistance: prepared version 1.1.0 release notes and README metadata, preserving v1.0.0. Used the changelog-generator skill to lint the four enhancement commits and generate a release draft, then curated user-facing notes. The full 31-test regression suite passed. Prepared a release commit and annotated tag for the connected public repository; publication is verified through Git separately rather than inferred from preparation.
