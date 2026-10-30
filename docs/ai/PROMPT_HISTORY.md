@@ -65,3 +65,11 @@ User prompt (verbatim):
 > Change name to ACI (Academic Integrity) Portal By Yotta, it'll be good
 
 AI assistance: renamed the shared interface brand, login, browser metadata, footer, launcher display text and README. Ran the existing page-render check and Django system check; inspected desktop/phone layouts and refreshed branding screenshots. Repository/database paths remain stable so this display-name change preserves local configuration and records. This remains a partial prompt record; exact tool actions are available in the chat history.
+
+## 2026-10-30 - Codex - version 1 baseline
+
+User prompt (verbatim):
+
+> commit it to git as version 1, as we go on we will enhance the interface and workflows as needed
+
+AI assistance: recorded the current implementation as version 1.0.0 in README/release notes and prepared a release commit and annotated v1.0.0 tag for the connected repository. No application behavior changed. Publication success is verified through Git rather than assumed from the attempt.

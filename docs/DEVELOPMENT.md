@@ -1,5 +1,9 @@
 # Development log
 
+## Version 1 baseline
+
+The user requested preserving the current implementation as version 1 before further interface and workflow enhancements. `CHANGELOG.md` and the annotated `v1.0.0` Git tag identify this baseline. Subsequent improvements should preserve the tag and receive their own commits/version notes.
+
 ## 2026-10-30 — implementation session
 
 Reviewed AGENTS.md, challenge notes, assignment breakdown, reusable project prompt, reviewer experience, prompt history, and the existing Yotta remote. Original attachment files were not present; used their recorded interpretation and stated that limit. Copied supporting documentation into this repository so a reviewer needs no parent-folder files. Parent copies remain as preparation history.

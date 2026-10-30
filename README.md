@@ -1,5 +1,7 @@
 # ACI (Academic Integrity) Portal By Yotta
 
+**Version 1 · `v1.0.0`** — initial working baseline. See [release notes](CHANGELOG.md). Future interface and workflow enhancements build on this tagged version.
+
 A local workspace that takes synthetic similarity flags through human triage, evidence review, reasoned decisions, and independent appeals. A score starts a review; it never decides guilt.
 
 Built with Django, SQLite, and responsive custom templates. Everything required to run and review the project is in this repository; nothing depends on its parent directory.
