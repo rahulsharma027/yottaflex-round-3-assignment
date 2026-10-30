@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- First-run login guide with the recommended administrator username, exact password-location/reprint instructions, role explanations and username shortcuts.
+- Clear account/password placeholders and sign-in progress text; smaller-screen visitors see the guide before focusing a field.
+- Already-authenticated visitors to the login page return to their workspace.
+
 ## 1.0.0 — 2026-10-30
 
 Initial working baseline of **ACI (Academic Integrity) Portal By Yotta**, preserved by the annotated Git tag `v1.0.0`.

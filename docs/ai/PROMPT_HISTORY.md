@@ -73,3 +73,11 @@ User prompt (verbatim):
 > commit it to git as version 1, as we go on we will enhance the interface and workflows as needed
 
 AI assistance: recorded the current implementation as version 1.0.0 in README/release notes and prepared a release commit and annotated v1.0.0 tag for the connected repository. No application behavior changed. Publication success is verified through Git rather than assumed from the attempt.
+
+## 2026-10-30 - Codex - first-run login guide
+
+User prompt (verbatim):
+
+> portal is opening in browser, as expected, first page is login page as I can see, it is asking for username as password, it'll get confusing for people opening and running the project for the first time, a little guide on web will enhance the user experience, as what to fill in username and password to gain admin access and all those  things.
+
+AI assistance: added prominent administrator sign-in instructions, expandable password-file/reprint help, role descriptions and username-only shortcuts. Added login placeholders, retained normal password authentication, removed automatic focus that could skip the guide on phones, and redirected authenticated visitors to the workspace. Verified existing workflow tests, unauthenticated HTML without generated passwords, administrator sign-in/error states, and desktop/phone layouts. Tool/session export remains partial; no local passwords are included in this public record.

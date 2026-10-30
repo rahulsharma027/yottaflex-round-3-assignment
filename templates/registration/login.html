@@ -1,1 +1,64 @@
-{% extends 'base.html' %}{% block auth_content %}<div class="login-art">{% include 'integrity/brand.html' with destination='login' %}<div class="login-statement"><span class="eyebrow">EVIDENCE. CONTEXT. FAIRNESS.</span><h1>Good judgment<br>starts with<br><em>a fair process.</em></h1><p>A thoughtful workspace for reviewing academic integrity, one case at a time.</p><div class="orbit" aria-hidden="true"><span>CONTEXT</span><span>EVIDENCE</span><span>REVIEW</span><b>ACI</b></div></div><small>Northfield University · Synthetic demonstration</small></div><div class="login-panel"><div class="login-form"><span class="pill neutral">LOCAL WORKSPACE</span><h2>Welcome to ACI Portal.</h2><p class="muted">Sign in to your academic integrity workspace.</p><form method="post">{% csrf_token %}{% include 'integrity/fields.html' %}{% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}<button class="button primary full" type="submit">Sign in {% include 'integrity/icon.html' with name='arrow' %}</button></form><div class="login-help"><strong>Here to explore the demo?</strong><p>Use <code>academic-admin</code> to start. Your launcher prints generated passwords and saves them in <code>.local/demo-accounts.json</code>.</p><p>Use separate accounts to try reviewer, learner, support, and independent appeal roles.</p></div><span class="fine-print">All records are synthetic. No external services are required.</span></div></div>{% endblock %}
+{% extends 'base.html' %}
+{% block auth_content %}
+<div class="login-art">
+  {% include 'integrity/brand.html' with destination='login' %}
+  <div class="login-statement">
+    <span class="eyebrow">EVIDENCE. CONTEXT. FAIRNESS.</span>
+    <h1>Good judgment<br>starts with<br><em>a fair process.</em></h1>
+    <p>A thoughtful workspace for reviewing academic integrity, one case at a time.</p>
+    <div class="orbit" aria-hidden="true"><span>CONTEXT</span><span>EVIDENCE</span><span>REVIEW</span><b>ACI</b></div>
+  </div>
+  <small>Northfield University · Synthetic demonstration</small>
+</div>
+<div class="login-panel">
+  <div class="login-form">
+    <span class="pill neutral">LOCAL DEMO WORKSPACE</span>
+    <h2>Welcome to ACI Portal.</h2>
+    <p class="muted">New to the project? Start with the administrator account below.</p>
+    <section class="sign-in-guide" aria-labelledby="sign-in-guide-title">
+      <div class="sign-in-guide-heading">
+        {% include 'integrity/icon.html' with name='compass' %}
+        <h3 id="sign-in-guide-title">Your first sign-in</h3>
+      </div>
+      <ol class="sign-in-steps">
+        <li><div><strong>Username</strong><div class="demo-username-row"><code>academic-admin</code><button type="button" class="demo-username-button" data-demo-username="academic-admin" hidden>Use this username</button></div></div></li>
+        <li><div><strong>Password</strong><p>Copy the password beside <code>academic-admin</code> in the terminal where you ran <code>python run.py</code>.</p></div></li>
+      </ol>
+      <details class="credential-help">
+        <summary>Can’t find the password?</summary>
+        <div class="credential-help-body">
+          <p>Open <code>.local/demo-accounts.json</code> in the project folder. Find the <code>"academic-admin"</code> key and copy its value into the Password field.</p>
+          <p>You can also print your login details again with:</p>
+          <pre><code>python run.py --setup-only</code></pre>
+          <p>This preserves your existing data and passwords. If you chose a custom workspace directory, look for <code>demo-accounts.json</code> there.</p>
+        </div>
+      </details>
+    </section>
+    <form method="post" data-pending-text="Signing in…">
+      {% csrf_token %}
+      {% include 'integrity/fields.html' %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <p id="demo-account-status" class="account-selection-hint" role="status">Each demo account has its own locally generated password.</p>
+      <button class="button primary full" type="submit">Sign in {% include 'integrity/icon.html' with name='arrow' %}</button>
+    </form>
+    <details class="demo-role-guide">
+      <summary>Want to try a different role?</summary>
+      <div class="demo-role-guide-body">
+        <p>Select a username, then use that account’s password from the terminal or credentials file.</p>
+        {% include 'registration/demo_account.html' with role_name='Original reviewer' username='reviewer' description='Review evidence and record decisions on cases assigned to Dr. Mira Sen.' %}
+        {% include 'registration/demo_account.html' with role_name='Independent appeal reviewer' username='appeal-reviewer' description='Give an assigned appeal an independent second look as Dr. Leena Rao.' %}
+        {% include 'registration/demo_account.html' with role_name='Learner' username='learner' description='View your own submissions, respond to a case, add evidence and submit an appeal.' %}
+        {% include 'registration/demo_account.html' with role_name='Support staff' username='support' description='Organize evidence and record learner notices.' %}
+        {% include 'registration/demo_account.html' with role_name='Platform administrator' username='platform-admin' description='Explore administrator controls and dataset validation.' %}
+        {% include 'registration/demo_account.html' with role_name='Second original reviewer' username='second-reviewer' description='Join reviews involving multiple reviewers as Prof. James Okafor.' %}
+        <p class="extra-reviewers">Additional reviewer accounts: <code>reviewer-theo</code>, <code>reviewer-anika</code> and <code>reviewer-evan</code>.</p>
+      </div>
+    </details>
+    <div class="login-next-steps">
+      <strong>Once you’re signed in</strong>
+      <p>As administrator, open <strong>Explore demo cases</strong> for a guided tour. Then try <strong>Flag triage</strong> to open a case and assign a reviewer.</p>
+    </div>
+    <span class="fine-print">All records are synthetic. Your generated password stays in your local setup.</span>
+  </div>
+</div>
+{% endblock %}

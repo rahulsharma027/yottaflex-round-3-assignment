@@ -1,9 +1,11 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from integrity import views
+from integrity.forms import PortalLoginForm
 
 urlpatterns = [
-    path("login/", auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
+    path("login/", auth_views.LoginView.as_view(template_name="registration/login.html", authentication_form=PortalLoginForm,
+          redirect_authenticated_user=True), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("", views.case_list, name="cases"),
     path("cases/<str:pk>/", views.case_detail, name="case-detail"),

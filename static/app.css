@@ -1533,7 +1533,7 @@ pre {
   background: #fbfcf8;
 }
 .login-form {
-  max-width: 23rem;
+  max-width: 27rem;
   width: 100%;
 }
 .login-form h2 {
@@ -1548,20 +1548,159 @@ pre {
 .login-form .button {
   margin-top: 0.5rem;
 }
-.login-help {
-  border-top: 1px solid var(--line);
-  margin: 2rem 0 1.5rem;
-  padding-top: 1.5rem;
+.sign-in-guide {
+  padding: 1.1rem;
+  margin-bottom: 1.4rem;
+  border: 1px solid #d8e4ca;
+  border-radius: 0.65rem;
+  background: #eef3e7;
+  font-size: 0.875rem;
+}
+.sign-in-guide-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sign-in-guide-heading h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.sign-in-steps {
+  counter-reset: sign-in-step;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+.sign-in-steps li {
+  counter-increment: sign-in-step;
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr);
+  gap: 0.65rem;
+  margin-bottom: 0.8rem;
+}
+.sign-in-steps li::before {
+  content: counter(sign-in-step);
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: #dce8cb;
   font-size: 0.75rem;
+  font-weight: 700;
 }
-.login-help p {
-  color: var(--muted);
-  line-height: 1.8;
-  margin: 0.5rem 0;
+.sign-in-steps p {
+  margin: 0.3rem 0 0;
+  line-height: 1.65;
 }
-.login-help code {
-  font-size: 0.7rem;
+.demo-username-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+.sign-in-guide code,
+.demo-role-guide code {
+  font-size: 0.8rem;
   overflow-wrap: anywhere;
+}
+.demo-username-button {
+  min-height: 44px;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #c3d2b3;
+  border-radius: 0.35rem;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.demo-username-button:hover {
+  background: #e1ebd5;
+}
+.demo-username-button[hidden] {
+  display: none;
+}
+.credential-help {
+  border-top: 1px solid #d8e4ca;
+}
+.credential-help summary {
+  padding: 0.7rem 0 0.3rem;
+  font-size: 0.875rem;
+}
+.credential-help-body {
+  padding-top: 0.6rem;
+}
+.credential-help-body p,
+.demo-role-guide-body > p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.credential-help-body p:last-child {
+  margin-bottom: 0;
+}
+.credential-help-body pre {
+  padding: 0.75rem;
+  background: #fff;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.account-selection-hint {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.demo-role-guide {
+  margin-top: 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+.demo-role-guide summary {
+  font-size: 0.875rem;
+}
+.demo-role-guide-body {
+  padding: 0.5rem 1rem 1rem;
+}
+.demo-account {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.demo-account h3 {
+  margin-bottom: 0.3rem;
+  font-size: 0.875rem;
+}
+.demo-account p {
+  margin: 0.4rem 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.extra-reviewers {
+  margin: 1rem 0 0;
+}
+.login-next-steps {
+  margin: 1.3rem 0 1rem;
+  font-size: 0.875rem;
+}
+.login-next-steps p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+/* Keep the sign-in guide close to the top on smaller screens. */
+.login-art {
+  min-height: auto;
+  padding: 1.5rem;
+}
+.login-statement {
+  padding: 1.3rem 0 0.5rem;
+}
+.login-statement h1,
+.login-statement > .eyebrow {
+  display: none;
+}
+.login-statement > p {
+  margin-bottom: 0.6rem;
 }
 .error-anon {
   margin: 5rem auto;
@@ -1715,6 +1854,13 @@ pre {
   .login-art {
     padding: 2.5rem 3rem;
     min-height: 100vh;
+  }
+  .login-statement {
+    padding: 3rem 0 1.5rem;
+  }
+  .login-statement h1,
+  .login-statement > .eyebrow {
+    display: block;
   }
   .login-panel {
     padding: 3rem;

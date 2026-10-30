@@ -65,3 +65,9 @@ Still unverified: normal-install bootstrap on Python 3.12/3.13/3.14; macOS/Linux
 ## Branding follow-up
 
 Renamed to **ACI (Academic Integrity) Portal By Yotta** at the user's request. `manage.py check` and the existing `test_all_pages_render_and_search_pagination_preserve_context` check passed on Python 3.14.10. Browser login/tab title and workspace branding were verified at desktop 1440×1000 and phone 375×812. Updated the desktop screenshot and added [phone branding](screenshots/branding-phone.png). Other original workflow screenshots retain their historical branding. No new schema or dataset changes were required.
+
+## First-run sign-in guide follow-up
+
+Django system check and all 20 existing workflow tests passed on Python 3.14.10 (0.619 s test-body time). An unauthenticated login response returned 200 with administrator/password/role guidance; comparing the HTML with generated local passwords found no exposed passwords. An authenticated test client visiting login received a 302 to the workspace. Login HTML no longer automatically focuses a field, keeping the guide visible first on phones.
+
+Actual browser checks: administrator username shortcut followed by successful password sign-in; failed sign-in keeps the guide visible and focuses its error; role shortcuts update account guidance, focus the password field and clear a previous account’s password; password-file/reprint instructions and role descriptions expand; signed-in navigation to login returns to the workspace. Inspected desktop 1440×1000 and phone 375×812. Screenshots: [desktop sign-in guide](screenshots/login-guide-desktop.png), [phone sign-in guide](screenshots/login-guide-phone.png). No fresh dataset generation was needed for this interface/auth-form change.

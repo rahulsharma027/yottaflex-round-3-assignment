@@ -2,6 +2,8 @@
 
 Start `python run.py`, open its URL, and use its generated passwords. Sign out between roles; every account establishes an actual authorized server session.
 
+On the login page, **Your first sign-in** recommends `academic-admin`. Use the username shortcut and copy the matching generated password from the terminal. The expandable password help identifies `.local/demo-accounts.json`, the `academic-admin` key and the non-destructive reprint command. Expand **Want to try a different role?** for role descriptions and other username shortcuts. After signing in, the administrator can open **Explore demo cases** for a guided tour.
+
 1. As `academic-admin`, inspect queue counts, Needs review, search, sorting and pagination. Open a case; Back to case queue preserves context.
 2. Select Explore demo cases: 000001 clears attributed quotation; 000002 explains shared templates; 000003 has two reviewers; 000004 retains an original finding and a successful independent appeal.
 3. Open Data & validation: inspect baseline findings, separate deliberately invalid fixtures, actual execution timestamp and matching file checksums.

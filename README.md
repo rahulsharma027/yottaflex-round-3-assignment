@@ -31,6 +31,12 @@ python run.py --reset-demo --confirm-reset  # explicitly DELETE local changes an
 
 Stop the server before resetting. A reset requires both flags, retains the signing secret, and generates new passwords. Changing `--mode` does not replace existing data. Set `YOTTA_LOCAL_DIR` to use an independent workspace; never publish that directory. Back up `.local/yotta.sqlite3` while stopped to preserve interactive work.
 
+### Your first sign-in
+
+The login page includes a **Your first sign-in** guide. Select **Use this username** for `academic-admin`, then paste that account’s generated password from the launcher terminal. **Can’t find the password?** explains the credentials file and how to print the details again with `python run.py --setup-only`. **Want to try a different role?** describes the accounts and provides username shortcuts. Each account still requires its own password.
+
+After signing in as administrator, start with **Explore demo cases**, then try **Flag triage**. See the [desktop guide](docs/screenshots/login-guide-desktop.png) and [phone guide](docs/screenshots/login-guide-phone.png).
+
 ## Explore
 
 | Account | Purpose |

@@ -1,5 +1,14 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 from .models import Assessment, EvidenceItem, Learner, Reviewer, Decision
+
+class PortalLoginForm(AuthenticationForm):
+    """Keep the first-run instructions visible before visitors focus a field."""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs.pop("autofocus", None)
+        self.fields["username"].widget.attrs["placeholder"] = "e.g. academic-admin"
+        self.fields["password"].widget.attrs["placeholder"] = "Your generated account password"
 
 class NamedChoice(forms.ModelChoiceField):
     def label_from_instance(self, obj):

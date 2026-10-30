@@ -36,8 +36,14 @@ Meaningful local commits group workflow/interface, data/tests/proof, and documen
 
 ## Remaining handoff work
 
-Candidate must personally review, run and explain the implementation, and record that honestly. Reconcile the partial prompt record with complete exports from every AI tool used and compare requirements against original attachments. The local implementation has not been pushed; publish the reviewed local commits before portal submission. Verify the public remote after publication, then submit its URL under the invitation's instructions before the deadline. See VERIFICATION.md for exact platform/testing limitations.
+Candidate must personally review, run and explain the implementation, and record that honestly. Reconcile the partial prompt record with complete exports from every AI tool used and compare requirements against original attachments. Version 1.0.0 was published to the public remote; subsequent unreleased enhancements may remain local, so check Git status and publish reviewed changes before portal submission. Verify the public remote, then submit its URL under the invitation's instructions before the deadline. See VERIFICATION.md for exact platform/testing limitations.
 
 ## 2026-10-30 — portal branding
 
 User selected **ACI (Academic Integrity) Portal By Yotta**. A shared brand template now supplies the sidebar and login identity, with the expanded name in accessible labels/browser metadata/footer, and matching launcher/README display text. Existing technical paths remain stable. Django checks and the existing page-render test passed; desktop (1440×1000) and phone (375×812) branding were inspected. Refreshed the README desktop screenshot and added a phone branding screenshot; earlier workflow screenshots remain historical verification evidence.
+
+## 2026-10-30 — first-run sign-in guidance
+
+Added an in-page first-sign-in guide before the login fields: administrator username, where to copy its generated password, exact credentials-file/key instructions, and a non-destructive command to print credentials again. Expandable role descriptions explain all demo accounts; optional buttons fill usernames and clear a previous account’s password. They use normal Django authentication. Guidance and manual sign-in remain available without JavaScript.
+
+Kept the guide discoverable on smaller screens with a compact brand introduction and no automatic input focus. Added matching input placeholders and Signing in progress text. Browser verification revealed an empty login view for an already-authenticated session; LoginView now redirects authenticated visitors to the workspace. Version 1.0.0 remains the unchanged baseline tag; this enhancement is listed under Unreleased.
