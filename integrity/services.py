@@ -122,6 +122,27 @@ def respond(user, case_id, version, reason):
     return case
 
 @transaction.atomic
+def record_external_response(user, case_id, version, reason, source_reference):
+    """Record received correspondence without attributing a staff action to a learner."""
+    require_role(user, ADMINS | {"support"})
+    reason_required(reason)
+    source_reference = source_reference.strip()
+    if len(reason) > 5000 or not 5 <= len(source_reference) <= 240 or any(c in source_reference for c in "\r\n"):
+        raise ValidationError("Provide a response of at most 5,000 characters and a single-line source reference of 5–240 characters.")
+    case = lock_case(case_id, version)
+    learner = case.report.submission.learner
+    if learner.user_id is not None:
+        raise ValidationError("This learner has a portal account and must submit their own response.")
+    if case.state not in {"triage", "review", "appeal"} or not case.notification_at:
+        raise ValidationError("Record learner notice before capturing a response in an open review or appeal.")
+    case.learner_response = reason.strip()
+    case.save(update_fields=["learner_response"])
+    # Preserve the full response with its source even if another response arrives later.
+    event(case, user, "learner_response_recorded",
+          f"Externally received response for {learner.id}.\nSource reference: {source_reference}\n\nLearner response:\n{case.learner_response}", learner.id)
+    return case
+
+@transaction.atomic
 def add_evidence(user, case_id, version, title, excerpt, source_reference, supersedes_id=""):
     case = lock_case(case_id, version)
     if not can_view(user, case) or role(user) not in STAFF | {"learner"}:

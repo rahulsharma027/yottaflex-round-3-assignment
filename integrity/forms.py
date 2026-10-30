@@ -20,6 +20,16 @@ class VersionForm(forms.Form):
 class ReasonForm(VersionForm):
     reason = forms.CharField(min_length=15, max_length=5000, label="Reason", widget=forms.Textarea(attrs={"rows": 4}))
 
+class ExternalResponseForm(ReasonForm):
+    source_reference = forms.CharField(min_length=5, max_length=240, label="Source reference",
+        help_text="Identify the received correspondence, such as a signed statement or email reference. No email is sent or fetched.")
+    field_order = ["version", "reason", "source_reference"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["reason"].label = "Learner's response"
+        self.fields["reason"].help_text = "Transcribe the learner's received response. Your staff account remains the recorder in the timeline."
+
 class AssignmentForm(ReasonForm):
     reviewer = NamedChoice(queryset=Reviewer.objects.filter(active=True, user__is_active=True))
     replace = forms.ChoiceField(required=False, label="Replace assignment (optional)")

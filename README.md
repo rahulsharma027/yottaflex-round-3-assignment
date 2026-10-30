@@ -48,7 +48,7 @@ After signing in as administrator, start with **Explore demo cases**, then try *
 | `second-reviewer` | Additional original reviewer |
 | `appeal-reviewer` | Assigned independent appeal review |
 | `learner` | Own submissions, response, evidence, and appeal |
-| `support` | Evidence and in-app notice; cannot assign or decide |
+| `support` | Evidence, in-app notice, and sourced external responses for learners without logins; cannot assign or decide |
 | `platform-admin` | Same academic controls/evaluation access as academic-admin |
 
 Additional instructor accounts `reviewer-theo`, `reviewer-anika` and `reviewer-evan` let all six reviewer profiles participate. Evan has a documented conflict with learner LRN-00001 and cannot review that learner's cases.
@@ -58,6 +58,8 @@ Reviewer accounts open **Assigned to me**, sorted by case opening date newest fi
 The assignment switch appears only for reviewers (including appeal reviewers). Administrators and support see all authorized cases; learners see only their own cases.
 
 Case files lead with student details and the original submitted work, then evidence, learner response, decisions and the complete timeline. Section links jump directly to each part or to the case actions. The submitted text remains escaped, and learner access remains limited to their own cases.
+
+For a learner without a portal login, an administrator or support staff member can record an externally received response after recording notice. Open **Case actions → Record received learner response**, transcribe the learner's words and supply a source reference. The case and timeline identify the staff recorder, source and recorded time. Earlier response records remain in the timeline. The ten demo accounts stay unchanged; learners with linked accounts submit their own responses.
 
 **Explore demo cases** links to legitimate quotation, template overlap, multiple reviewers, and a successful appeal. Follow [WALKTHROUGH.md](docs/WALKTHROUGH.md) to create your own complete review and appeal. Permissions are enforced on the server, including learner ownership and decision author assignment.
 

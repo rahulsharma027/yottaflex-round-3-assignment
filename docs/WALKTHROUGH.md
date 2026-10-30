@@ -27,6 +27,19 @@ In the case file, read Student details → Submitted work → Evidence → Respo
 
 ## Blocked-action checks
 
+### Learners without a portal login
+
+The ten demo accounts remain the primary role walkthrough. Other generated learners can respond through received correspondence without being given additional logins:
+
+1. As administrator, open a case for that learner, assign an eligible reviewer and record notice.
+2. As administrator or support, choose **Case actions → Record received learner response**. This action appears for a learner without a linked login after notice in an open review or appeal.
+3. Enter the received learner response and an identifiable source reference, such as a signed-statement reference. Save it. The portal records the staff account as the recorder; it does not impersonate a learner or send/fetch email.
+4. Inspect **Response** and **Timeline** for the recorder, timestamp, source and preserved text. An assigned reviewer can now consider the response and evidence when deciding.
+
+Staff cannot use this route for learners who have linked portal accounts. Those learners submit through their own session. Responses must be supplied deliberately; the app never invents one to unblock a case.
+
+### Authorization and lifecycle checks
+
 - Dr. Evan Cole cannot review LRN-00001: recorded supervisor conflict.
 - An unassigned administrator cannot author a decision, including through a forged request.
 - Decisions need evidence, rationale, notice and response.

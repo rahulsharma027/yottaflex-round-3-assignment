@@ -65,7 +65,8 @@ def case_list(request):
 def case_detail(request, pk):
     case = get_object_or_404(scoped_cases(request.user), pk=pk)
     actions = {"assign": forms.AssignmentForm, "evidence": forms.EvidenceForm, "decision": forms.DecisionForm,
-               "notify": forms.ReasonForm, "response": forms.ReasonForm, "appeal": forms.ReasonForm, "close": forms.ReasonForm}
+               "notify": forms.ReasonForm, "response": forms.ReasonForm, "external_response": forms.ExternalResponseForm,
+               "appeal": forms.ReasonForm, "close": forms.ReasonForm}
     bound_action = request.POST.get("action") if request.method == "POST" else None
     action_forms = {}
     for name, form_class in actions.items():
@@ -85,6 +86,8 @@ def case_detail(request, pk):
                     services.add_evidence(*args, d["title"], d["excerpt"], d["source_reference"], d["supersedes"].id if d["supersedes"] else "")
                 elif bound_action == "decision":
                     services.record_decision(*args, d["outcome"], d["rationale"], [e.id for e in d["evidence"]])
+                elif bound_action == "external_response":
+                    services.record_external_response(*args, d["reason"], d["source_reference"])
                 else:
                     {"notify": services.notify_learner, "response": services.respond, "appeal": services.submit_appeal,
                      "close": services.close_case}[bound_action](*args, d["reason"])
@@ -100,6 +103,7 @@ def case_detail(request, pk):
     back = request.GET.get("back", reverse("cases"))
     if not back.startswith("/") or not url_has_allowed_host_and_scheme(back, allowed_hosts={request.get_host()}):
         back = reverse("cases")
+    response_event = case.events.filter(action__in=["learner_response", "learner_response_recorded"]).order_by("-occurred_at", "-id").first()
     return render(request, "integrity/case_detail.html", {"case": case, "title": case.id,
         "submission": case.report.submission, "learner": case.report.submission.learner,
         "assigned_to_me": case.assignments.filter(reviewer__user=request.user, ended_at__isnull=True).exists(),
@@ -111,6 +115,9 @@ def case_detail(request, pk):
         "can_decide": assigned and case.state in {"review", "appeal"},
         "can_notify": current_role in services.ADMINS | {"support"} and not case.notification_at and case.state in {"triage", "review"},
         "can_respond": current_role == "learner" and case.notification_at and case.state in {"triage", "review", "appeal"},
+        "response_event": response_event,
+        "can_record_external_response": current_role in services.ADMINS | {"support"} and
+            case.report.submission.learner.user_id is None and case.notification_at and case.state in {"triage", "review", "appeal"},
         "can_appeal": (current_role in services.ADMINS or current_role == "learner") and case.state in {"decided", "closed"} and not appeal})
 
 @login_required

@@ -36,7 +36,11 @@
     <section id="learner-response" class="panel padded case-section" tabindex="-1" aria-labelledby="response-heading">
       <div class="section-heading"><span class="section-number">04</span><div><h2 id="response-heading">The learner’s voice</h2><p class="muted small-text">A response is required before a substantive decision.</p></div></div>
       {% if case.notification_at %}<span class="pill cleared">Notice recorded · {{ case.notification_at|date:'d M Y' }}</span>{% else %}<span class="pill triage">Awaiting in-app notice</span>{% endif %}
-      <p class="prose">{{ case.learner_response|default:'No learner response has been recorded yet.'|linebreaksbr }}</p>
+      {% if response_event.action == 'learner_response_recorded' %}
+      <p class="small-text"><strong>External response recorded by {{ response_event.actor }}</strong> · <time datetime="{{ response_event.occurred_at|date:'c' }}">{{ response_event.occurred_at|date:'d M Y, H:i' }}</time></p>
+      <p class="prose">{{ response_event.detail|linebreaksbr }}</p>
+      {% else %}<p class="prose">{{ case.learner_response|default:'No learner response has been recorded yet.'|linebreaksbr }}</p>{% endif %}
+      {% if not learner.user_id and review_open %}<p class="small-text muted">This learner has no portal login. An administrator or support staff member can record a response received outside the portal, with a source reference, after notice has been recorded.</p>{% if can_record_external_response %}<a class="report-link" href="#case-actions">Record a received response ↓</a>{% endif %}{% endif %}
     </section>
     <section id="case-decisions" class="panel padded case-section" tabindex="-1" aria-labelledby="decisions-heading">
       <div class="section-heading"><span class="section-number">05</span><div><h2 id="decisions-heading">Reasoned decisions</h2><p class="muted small-text">Original findings remain visible when an appeal changes the outcome.</p></div></div>

@@ -66,3 +66,10 @@ class DatasetTests(SimpleTestCase):
         data, _ = generate("starter")
         data["similarityreport"][0]["raw_score"] = "56"
         self.assertIn("field_type", {f["code"] for f in validate(data)})
+
+    def test_external_response_event_is_recognized_without_changing_baseline_data(self):
+        data, _ = generate("starter")
+        response = next(e for e in data["caseevent"] if e["case_id"] == "INT-2026-000001" and e["action"] == "learner_response")
+        response.update(action="learner_response_recorded", actor="support", related_id="LRN-00001",
+            detail="Externally received response. Source reference: Signed statement REF-001. Learner response retained.")
+        self.assertEqual(validate(data, "starter"), [])

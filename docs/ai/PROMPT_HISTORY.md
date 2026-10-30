@@ -125,3 +125,21 @@ User prompt (verbatim):
 > ok, got it, that would be a lot confusing, as per UI we are using green on the left side navigation, can me make it the theme adapt dark blue/ blueish, center pages can be of white/lighter theme, a little preference from my side
 
 AI assistance: applied navy/blue branding with white and light blue-gray main surfaces through the existing CSS. Preserved distinct status colors and all workflows. Used frontend-design, responsive layout and interface-polish skills; inspected workspace, case, login, phone navigation, reviewer scope switching and keyboard focus in the browser at representative widths. Checked CSS variable references, contrast samples, Django system checks and Git whitespace, then updated documentation and screenshots. No data or release tags were changed.
+
+## 2026-10-30 - Codex - prioritized audit and first fix
+
+User audit prompt (verbatim):
+
+> ok, now audit the site as an senior reviewer and let me know if this site covers all the point or not, don't be biased just follow the rules and be as harsh as possible.
+
+Requirements-location clarification: in /docs.
+
+User follow-up (verbatim):
+
+> ok, we'll go step by step with priorities and will commit and fix it before moving to other problems.
+
+Clarification asked: For cases belonging to learners without logins, which workflow should we use? Both preserve the learner-response requirement and an audit trail.
+
+User selected: Keep the ten demo accounts; let administrators/support record an externally received learner response with its source and recorder clearly identified (Recommended).
+
+AI assistance: audited source, original FAQ/submission guidelines and /docs, reproduced four functional/data issues in isolated tests, verified fresh setup and recorded accessibility/disclosure gaps. For F1 only, added a sourced external-response workflow with staff attribution, prior notice, source/state/account-link checks, retained snapshots and stale protection. Five additional regression tests bring the passing suite to 36. Browser verification used a separate workspace at desktop and phone sizes; live cases and demo accounts were preserved. Remaining audit findings are tracked in AUDIT_FIXES.md. This prompt record remains partial; the disclosure-reconciliation finding is not marked resolved.

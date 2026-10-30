@@ -90,6 +90,7 @@ Appeal outcome comparison derives upheld/overturned and preserves the original f
 | Assign/reassign | No | No | Yes | No | Yes |
 | Record notice | No | No | Yes | Yes | Yes |
 | Submit learner response | Own only | No | No | No | No |
+| Record sourced external response for learner without login | No | No | Yes | Yes | Yes |
 | Add/version evidence in open review | Own only | Yes | Yes | Yes | Yes |
 | Decide | No | Assigned eligible only | Assigned eligible only | No | Assigned eligible only |
 | Submit appeal | Own only | No | Yes | No | Yes |
@@ -97,6 +98,8 @@ Appeal outcome comparison derives upheld/overturned and preserves the original f
 | Evaluation access | No | No | Yes | No | Yes |
 
 Seeded administrator accounts are deliberately not reviewer profiles. There is no unrestricted Django admin route. Staff read access is institution-wide for this synthetic demonstration, not a real confidentiality/tenancy policy.
+
+Learners without linked portal accounts can participate through received correspondence: an administrator or support recorder supplies the learner's response and a single-line source reference. The service requires prior notice and an open review/appeal, refuses staff capture for linked learner accounts, and records `learner_response_recorded` with the actual staff actor and learner ID. Event detail preserves the source and full response snapshot; the case stores the latest response. The case file shows external provenance explicitly, and stale requests roll back. This extends response reachability without granting new accounts or relaxing decision requirements. Recognition of this event type does not resolve the separately tracked temporal-validation audit finding.
 
 ## Security and limits
 

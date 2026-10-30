@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fixed blocked cases for learners without logins: administrators/support can record an externally received learner response with its source, staff attribution and retained history; notice and decision prerequisites remain enforced.
 - Navy navigation and login branding, blue actions/selection/focus accents, and white/light blue-gray content surfaces throughout the portal; distinct case-status colors are retained.
 
 ## 1.1.0 — 2026-10-30

@@ -8,6 +8,10 @@ The user requested preserving the current implementation as version 1 before fur
 
 At the user's request, version `v1.1.0` collects the guided login, interactive role-specific queues, structured case files and subsequent assignment-scope fixes. Release notes were generated from the four conventional commits since `v1.0.0` and edited for clarity. The original baseline tag is preserved. No runtime dependency or database migration changed in this release.
 
+## First prioritized audit fix: learner response reachability
+
+The audit exposed cases whose learner had no login, while every decision required a learner response. The user selected a sourced external-response workflow to preserve the ten-account demo. Added a staff-only service/form for administrators/support, with server-side source, notice, account-link, state and stale-version checks. Full response/source snapshots remain in attributed events; the latest external response is shown with its recorder and timestamp in the case file. Existing direct learner ownership and decision prerequisites remain enforced. No learner credentials, migration or generated dataset were changed. AUDIT_FIXES.md tracks this resolved issue and the remaining findings separately.
+
 ## 2026-10-30 — implementation session
 
 Reviewed AGENTS.md, challenge notes, assignment breakdown, reusable project prompt, reviewer experience, prompt history, and the existing Yotta remote. Original attachment files were not present; used their recorded interpretation and stated that limit. Copied supporting documentation into this repository so a reviewer needs no parent-folder files. Parent copies remain as preparation history.

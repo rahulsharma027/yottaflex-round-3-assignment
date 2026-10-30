@@ -137,6 +137,97 @@ class WorkflowTests(TestCase):
         with self.assertRaises(PermissionDenied):
             services.respond(self.learner, "INT-2026-000003", 1, "Attempt to respond for a different learner's case.")
 
+    def unlinked_learner_case(self, *, notice=True):
+        submission = services.create_submission(self.admin, Learner.objects.get(pk="LRN-00002"), Assessment.objects.first(),
+            "External response workflow", "A synthetic submission from a learner without a portal login.", 60, 5, 5)
+        case = services.triage_report(self.admin, submission.report.id, "open", "Review this work after examining the source context.")
+        case = services.assign_reviewer(self.admin, case.id, case.version, "REV-001", "Assign an eligible reviewer to examine the learner's work.")
+        if notice:
+            case = services.notify_learner(self.support, case.id, case.version, "Record the learner's notice and invitation to provide a response.")
+        return case
+
+    def test_external_response_allows_unlinked_learner_case_to_complete(self):
+        case = self.unlinked_learner_case()
+        case = services.add_evidence(self.support, case.id, case.version, "Source context", "Attributed source comparison.", "synthetic://external/source")
+        evidence = list(case.evidence.values_list("id", flat=True))
+        with self.assertRaisesMessage(ValidationError, "obtain a learner response"):
+            services.record_decision(self.reviewer, case.id, case.version, "cleared", "The source context explains the highlighted material.", evidence)
+        response = "My dated bibliography attributes the highlighted passage to its original source."
+        case = services.record_external_response(self.support, case.id, case.version, response, "Signed learner statement REF-002")
+        recorded = case.events.get(action="learner_response_recorded")
+        self.assertEqual((recorded.actor, recorded.related_id), (self.support.username, "LRN-00002"))
+        self.assertIn(response, recorded.detail)
+        self.assertIn("REF-002", recorded.detail)
+        self.assertEqual(case.learner_response, response)
+        self.assertIsNone(case.report.submission.learner.user_id)
+        case = services.record_decision(self.reviewer, case.id, case.version, "cleared", "The source evidence and recorded learner response explain the overlap.", evidence)
+        case = services.close_case(self.admin, case.id, case.version, "Close after considering the documented response and human finding.")
+        self.assertEqual(case.state, "closed")
+
+    def test_external_response_role_permissions_and_linked_learner_guard(self):
+        case = self.unlinked_learner_case()
+        version, event_count = case.version, case.events.count()
+        for actor in [self.reviewer, self.appeal, self.learner]:
+            with self.subTest(actor=actor.username), self.assertRaises(PermissionDenied):
+                services.record_external_response(actor, case.id, version, "A received response with an identifiable source.", "Signed statement REF-002")
+        case.refresh_from_db()
+        self.assertEqual((case.version, case.events.count(), case.learner_response), (version, event_count, ""))
+        for actor in [self.admin, self.platform_admin, self.support]:
+            with self.subTest(authorized=actor.username):
+                case = services.record_external_response(actor, case.id, case.version, "A received response with an identifiable source.", "Signed statement REF-002")
+        self.assertEqual(case.events.filter(action="learner_response_recorded").count(), 3)
+        linked = self.prepare_review()
+        with self.assertRaisesMessage(ValidationError, "must submit their own response"):
+            services.record_external_response(self.admin, linked.id, linked.version, "Attempt a staff response for a learner with a login.", "Signed statement REF-001")
+
+    def test_external_response_preserves_prerequisites_history_and_stale_protection(self):
+        case = self.unlinked_learner_case(notice=False)
+        with self.assertRaisesMessage(ValidationError, "Record learner notice"):
+            services.record_external_response(self.support, case.id, case.version, "A received response with an identifiable source.", "Signed statement REF-002")
+        case = services.notify_learner(self.support, case.id, case.version, "Record notice before accepting a response received from the learner.")
+        for source in ["", "bad", "x" * 241, "Statement\nforged metadata"]:
+            with self.subTest(source=source), self.assertRaises(ValidationError):
+                services.record_external_response(self.support, case.id, case.version, "A received response with an identifiable source.", source)
+        old_version = case.version
+        first = "The first received response explains the original source notes."
+        case = services.record_external_response(self.support, case.id, old_version, first, "Received statement REF-002-A")
+        with self.assertRaisesMessage(ValidationError, "already submitted"):
+            services.record_external_response(self.support, case.id, old_version, first, "Received statement REF-002-A")
+        second = "A later received response adds the dated draft and attribution notes."
+        case = services.record_external_response(self.admin, case.id, case.version, second, "Received statement REF-002-B")
+        self.assertEqual(case.learner_response, second)
+        self.assertTrue(case.events.filter(action="learner_response_recorded", detail__contains=first).exists())
+        self.assertEqual(case.events.filter(action="learner_response_recorded").count(), 2)
+        Case.objects.filter(pk=case.id).update(state="decided")
+        with self.assertRaisesMessage(ValidationError, "open review or appeal"):
+            services.record_external_response(self.support, case.id, case.version, second, "Received statement REF-002-C")
+
+    def test_external_response_form_visibility_validation_and_escaped_provenance(self):
+        case = self.unlinked_learner_case()
+        url = f"/cases/{case.id}/"
+        self.client.force_login(self.support)
+        self.assertContains(self.client.get(url), "Record received learner response")
+        payload = {"action": "external_response", "version": case.version,
+            "reason": "My source notes explain the highlighted material. <script>bad()</script>", "source_reference": ""}
+        invalid = self.client.post(url, payload)
+        self.assertEqual(invalid.status_code, 200)
+        self.assertContains(invalid, "This field is required")
+        self.assertContains(invalid, "My source notes explain")
+        self.assertFalse(case.events.filter(action="learner_response_recorded").exists())
+        payload["source_reference"] = "Signed statement <script>source()</script>"
+        self.assertEqual(self.client.post(url, payload).status_code, 302)
+        result = self.client.get(url)
+        self.assertContains(result, "External response recorded by support")
+        self.assertContains(result, "Source reference: Signed statement &lt;script&gt;")
+        self.assertNotContains(result, "<script>bad()")
+        self.assertNotContains(result, "<script>source()")
+        self.client.force_login(self.reviewer)
+        self.assertNotContains(self.client.get(url), "Record received learner response")
+        payload["version"] = Case.objects.get(pk=case.id).version
+        self.assertEqual(self.client.post(url, payload).status_code, 403)
+        self.client.force_login(self.admin)
+        self.assertNotContains(self.client.get("/cases/INT-2026-000001/"), "Record received learner response")
+
     def test_triage_is_recorded_with_actor_and_cannot_repeat(self):
         report = SimilarityReport.objects.filter(triage="pending").first()
         services.triage_report(self.admin, report.id, "dismiss", "Common language explains the remaining overlap.")

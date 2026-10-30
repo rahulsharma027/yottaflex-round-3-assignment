@@ -27,6 +27,12 @@
       <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="response">{% include 'integrity/fields.html' with form=forms.response %}<button type="submit" class="button primary full">Submit response</button></form>
     </details>
     {% endif %}
+    {% if can_record_external_response %}
+    <details {% if bound_action == 'external_response' %}open{% endif %}>
+      <summary>Record received learner response</summary>
+      <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="external_response"><p class="small-text muted">This learner has no portal login. Record a response you have received, with its source. The timeline identifies you as the recorder.</p>{% include 'integrity/fields.html' with form=forms.external_response %}<button type="submit" class="button primary full">Record learner response</button></form>
+    </details>
+    {% endif %}
     {% if review_open %}
     <details {% if bound_action == 'evidence' %}open{% endif %}>
       <summary>Add evidence or a new version</summary>

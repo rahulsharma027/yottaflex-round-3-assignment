@@ -115,7 +115,7 @@ def validate(data, mode=None):
             error("audit", cid, "Missing opening event.")
         if case["notification_at"] and not any(e["action"] == "learner_notified" for e in cevents):
             error("audit", cid, "Missing learner notice event.")
-        if case["learner_response"] and not any(e["action"] == "learner_response" for e in cevents):
+        if case["learner_response"] and not any(e["action"] in {"learner_response", "learner_response_recorded"} for e in cevents):
             error("audit", cid, "Missing learner response event.")
         original_reviewers = {a["reviewer_id"] for a in assignments[cid] if a["phase"] == "original"}
         for assignment in assignments[cid]:
