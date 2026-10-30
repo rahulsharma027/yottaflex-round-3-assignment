@@ -10,6 +10,10 @@ On the login page, **Your first sign-in** recommends `academic-admin`. Use the u
 
 ## A new case from start to appeal
 
+Reviewer accounts initially show **Assigned to me**, newest opened cases first. Use Assignments → All cases for the wider authorized workspace. Click a summary card to filter and move smoothly down to the queue; tabs, search and pagination retain the selected assignment scope. Opening a case and using Back to case queue preserves those choices.
+
+In the case file, read Student details → Submitted work → Evidence → Response → Decisions → Timeline. The section bar and Case actions link avoid scrolling through the entire file to find a specific part.
+
 1. As `learner`, create a submission with raw 75, quote 10 and template 5. Adjusted score is 60%. A flag appears; no automatic case or misconduct decision.
 2. As `academic-admin`, find that submission in Flag triage. Inspect the report; open a formal case with a meaningful reason. Save the case ID.
 3. Assign Dr. Mira Sen (`reviewer`). Record an in-app learner notice; this sends no email.

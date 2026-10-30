@@ -6,7 +6,7 @@ A local workspace that takes synthetic similarity flags through human triage, ev
 
 Built with Django, SQLite, and responsive custom templates. Everything required to run and review the project is in this repository; nothing depends on its parent directory.
 
-![ACI Portal By Yotta workspace](docs/screenshots/workspace-desktop.png)
+![ACI Portal By Yotta reviewer workspace](docs/screenshots/reviewer-workspace-desktop.png)
 
 ## Run locally
 
@@ -50,6 +50,10 @@ After signing in as administrator, start with **Explore demo cases**, then try *
 | `platform-admin` | Same academic controls/evaluation access as academic-admin |
 
 Additional instructor accounts `reviewer-theo`, `reviewer-anika` and `reviewer-evan` let all six reviewer profiles participate. Evan has a documented conflict with learner LRN-00001 and cannot review that learner's cases.
+
+Reviewer accounts open **Assigned to me**, sorted by case opening date newest first. Use the separate **Assignments** filter to switch to All cases. Summary cards show counts within the selected scope; selecting one updates and smoothly scrolls to its filtered queue. Search, status, assignment, sorting and pagination remain in the URL when returning from a case.
+
+Case files lead with student details and the original submitted work, then evidence, learner response, decisions and the complete timeline. Section links jump directly to each part or to the case actions. The submitted text remains escaped, and learner access remains limited to their own cases.
 
 **Explore demo cases** links to legitimate quotation, template overlap, multiple reviewers, and a successful appeal. Follow [WALKTHROUGH.md](docs/WALKTHROUGH.md) to create your own complete review and appeal. Permissions are enforced on the server, including learner ownership and decision author assignment.
 

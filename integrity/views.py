@@ -1,6 +1,5 @@
 import json
 import secrets
-from pathlib import Path
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,10 +11,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from . import forms, services
-from .models import Case, IntegrityRule, SimilarityReport, Submission, SeedState
+from .models import Assignment, Case, IntegrityRule, SimilarityReport, Submission, SeedState
 
 def scoped_cases(user):
-    qs = Case.objects.select_related("report__submission__learner", "report__submission__assessment").prefetch_related(
+    qs = Case.objects.select_related("report__submission__learner", "report__submission__assessment", "report__rule").prefetch_related(
         "assignments__reviewer", "decisions")
     if services.role(user) == "learner":
         return qs.filter(report__submission__learner__user=user)
@@ -28,10 +27,22 @@ def paginate(request, qs):
 @login_required
 def case_list(request):
     qs = scoped_cases(request.user)
+    current_role = services.role(request.user)
+    can_filter_assignments = current_role in services.ADMINS | {"instructor"}
+    default_assignee = "mine" if current_role == "instructor" else "all"
+    assignee = request.GET.get("assignee", default_assignee)
+    if assignee not in {"mine", "all"} or not can_filter_assignments:
+        assignee = default_assignee
+    if assignee == "mine":
+        # A subquery avoids duplicates and keeps reviewer/ended checks on one assignment.
+        current_assignments = Assignment.objects.filter(reviewer__user=request.user, ended_at__isnull=True)
+        qs = qs.filter(pk__in=current_assignments.values("case_id"))
     counts = {"all": qs.count(), "review": qs.filter(state__in=["triage", "review"]).count(),
               "appeal": qs.filter(state="appeal").count(), "closed": qs.filter(state="closed").count(),
               "decided": qs.filter(state="decided").count()}
     state = request.GET.get("state", "")
+    if state not in {"active", *dict(Case.STATES)}:
+        state = ""
     if state == "active":
         qs = qs.filter(state__in=["triage", "review"])
     elif state in dict(Case.STATES):
@@ -41,9 +52,14 @@ def case_list(request):
         qs = qs.filter(Q(id__icontains=query) | Q(report__submission__learner__name__icontains=query) |
                        Q(report__submission__assessment__title__icontains=query))
     order = request.GET.get("sort", "newest")
-    ordering = {"newest": "-opened_at", "oldest": "opened_at", "similarity": "-report__adjusted_score"}.get(order, "-opened_at")
-    return render(request, "integrity/case_list.html", {"page": paginate(request, qs.order_by(ordering, "id")),
-        "counts": counts, "query": query, "state": state, "sort": order, "title": "Case workspace"})
+    orders = {"newest": ("-opened_at", "-id"), "oldest": ("opened_at", "id"),
+              "similarity": ("-report__adjusted_score", "-opened_at", "-id")}
+    if order not in orders:
+        order = "newest"
+    return render(request, "integrity/case_list.html", {"page": paginate(request, qs.order_by(*orders[order])),
+        "counts": counts, "query": query, "state": state, "sort": order, "title": "Case workspace",
+        "assignee": assignee, "default_assignee": default_assignee, "can_filter_assignments": can_filter_assignments,
+        "sort_label": {"newest": "Newest first", "oldest": "Oldest first", "similarity": "Highest adjusted overlap"}[order]})
 
 @login_required
 def case_detail(request, pk):
@@ -85,6 +101,8 @@ def case_detail(request, pk):
     if not back.startswith("/") or not url_has_allowed_host_and_scheme(back, allowed_hosts={request.get_host()}):
         back = reverse("cases")
     return render(request, "integrity/case_detail.html", {"case": case, "title": case.id,
+        "submission": case.report.submission, "learner": case.report.submission.learner,
+        "assigned_to_me": case.assignments.filter(reviewer__user=request.user, ended_at__isnull=True).exists(),
         "forms": action_forms, "bound_action": bound_action, "back": back,
         "evidence": case.evidence.order_by("added_at", "id"),
         "timeline": case.events.order_by("occurred_at", "id"), "decisions": case.decisions.prefetch_related("evidence").select_related("reviewer").order_by("decided_at"),

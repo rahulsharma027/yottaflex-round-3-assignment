@@ -47,3 +47,13 @@ User selected **ACI (Academic Integrity) Portal By Yotta**. A shared brand templ
 Added an in-page first-sign-in guide before the login fields: administrator username, where to copy its generated password, exact credentials-file/key instructions, and a non-destructive command to print credentials again. Expandable role descriptions explain all demo accounts; optional buttons fill usernames and clear a previous account’s password. They use normal Django authentication. Guidance and manual sign-in remain available without JavaScript.
 
 Kept the guide discoverable on smaller screens with a compact brand introduction and no automatic input focus. Added matching input placeholders and Signing in progress text. Browser verification revealed an empty login view for an already-authenticated session; LoginView now redirects authenticated visitors to the workspace. Version 1.0.0 remains the unchanged baseline tag; this enhancement is listed under Unreleased.
+
+## 2026-10-30 — reviewer workload and case-file navigation
+
+User requested interactive summary cards, an Assigned to me default, newest-first reviewer queues, and clearer student/submission/timeline structure. Confirmed the proposed case-file order with the user.
+
+Reviewer/instructor defaults now use current assignments across original and appeal phases, including completed cases. Assignment scope is independent of sorting; ended assignments are excluded. Sorting uses case opening date descending and ID descending for deterministic ties. Administrators/support retain all-case defaults; learners remain limited to their own work. Summary counts use the selected scope, with an explicit explanation above the cards.
+
+Summary cards, tabs, filters and pagination progressively fetch authorized HTML and replace only the queue/summary. Cards clear search/page before applying a status and move smoothly to the queue; selection, focus, announcements, browser history and real fallback URLs keep navigation understandable. Superseded requests are aborted, reduced-motion preferences bypass smooth motion, and ordinary case-return links retain scope/search/sort/page and the queue anchor. No extra frontend runtime or API was added.
+
+Case files now present student ID/programme/email, the full escaped submission text and assessment metadata, evidence, learner response, retained decisions and full dated timeline. A section bar and case-actions link help on small screens; team/actions remain alongside on desktop. Domain write services and the v1.0.0 baseline tag are unchanged. Existing local reviewer data was preserved.

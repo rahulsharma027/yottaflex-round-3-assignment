@@ -18,6 +18,16 @@ flowchart LR
 
 `services.py` is the write boundary. Services check role, ownership, phase, state, assignment, conflict, evidence, rationale and learner response. Domain mutations and audit events share one `transaction.atomic`. SQLite uses BEGIN IMMEDIATE and a 20-second timeout to serialize short writes. A conditional version update claims a case; stale/repeated actions roll back. Transactional counters allocate immutable IDs. A user-bound hashed request receipt makes submission creation idempotent even for concurrent repeats. Client button disabling is only a convenience.
 
+## Queue navigation and case files
+
+Reviewer/instructor accounts default to `assignee=mine`, using a subquery for current (`ended_at IS NULL`) assignments to the authenticated reviewer. Original and appeal assignments are included, even for completed cases; ended assignments are excluded. Administrators/support default to all authorized cases, while learners always remain scoped to their own work. All cases is an explicit reviewer filter, not a change to the authorization boundary.
+
+Default sorting is `opened_at DESC, id DESC`, with the ID providing stable order for the generator's tied historical timestamps. Oldest and adjusted-overlap ordering remain separate choices. Summary counts apply to the selected assignment scope before search/status. Summary cards clear search/page when selecting a status, so the shown count corresponds to the destination; tabs retain search. Queue filters and return links preserve URL state and the queue anchor.
+
+Small JavaScript enhancements fetch the same authorized, server-rendered HTML and replace only the queue/summary fragments. Normal GET links/forms remain functional without JavaScript. New requests cancel superseded fetches; browser Back/Forward reloads the appropriate filter state. Focus and a live result announcement accompany smooth scrolling. Reduced-motion preferences select automatic scrolling. No new frontend framework or JSON API is required.
+
+Case files put student details and escaped original submission text before evidence, response, decisions and a full dated timeline. Section links provide direct navigation; actions remain alongside on desktop and reachable by anchor on smaller screens. This layout does not alter decision/evidence/appeal services or expose evaluation truth.
+
 ## Stack and sizing assumptions
 
 Django **5.2.18 LTS** was confirmed on PyPI and the [official download page](https://www.djangoproject.com/download/) on 2026-10-30. [Official compatibility](https://docs.djangoproject.com/en/5.2/faq/install/) covers Python through 3.14; this project recommends 3.12–3.14. The host's 3.15.1 is explicitly experimental. Passing local checks is not an official compatibility guarantee.

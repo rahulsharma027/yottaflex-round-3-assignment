@@ -2220,3 +2220,150 @@ html {
     font-size: 0.7rem;
   }
 }
+
+/* Workload navigation: summary cards lead directly to their filtered queue. */
+.summary-scope {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: -0.5rem 0 1rem;
+}
+.summary-scope strong { color: var(--ink); }
+.stat { transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s; }
+.stat[aria-current="true"] {
+  border-color: #8aa778;
+  background: #f8fbf4;
+  box-shadow: inset 0 0 0 1px #a2b991;
+}
+.stat-jump {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.8rem;
+  color: #526e42;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.stat-jump > span { font-size: 1.1rem; }
+#case-queue { scroll-margin-top: 1.25rem; }
+.queue-panel[aria-busy="true"] { opacity: 0.65; cursor: progress; }
+.queue-panel:focus-visible,
+.case-section:focus-visible,
+.case-rail:focus-visible { outline: 3px solid #77984e; outline-offset: 3px; }
+.filter-control {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 10rem;
+  min-width: 0;
+  gap: 0.3rem;
+}
+.filter-search-control { flex: 2 1 16rem; }
+.filter-control > label { font-size: 0.875rem; font-weight: 700; }
+.filter-control .search-field { flex: none; width: 100%; }
+.filter-control select { width: 100%; }
+.queue-filter > button,
+.queue-filter > .reset-link { align-self: flex-end; }
+
+/* Case files read from student and original work through evidence to the outcome. */
+.case-file-heading .heading-actions { align-items: center; }
+.case-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.case-overview > div { min-width: 0; }
+.case-overview .mono { overflow-wrap: anywhere; }
+.case-section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  gap: 0.3rem;
+  overflow-x: auto;
+  padding: 0.45rem;
+  margin: 0 0 1.4rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  box-shadow: 0 3px 10px #203d3208;
+}
+.case-section-nav > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  flex: 1 0 auto;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.35rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.case-section-nav > a:hover,
+.case-section-nav > a:focus-visible { background: #e7eedf; }
+.case-section,
+#case-actions { scroll-margin-top: 5rem; }
+.case-section:target { border-color: #8aa778; }
+.student-profile { display: flex; align-items: center; gap: 0.8rem; }
+.student-profile .avatar { width: 2.75rem; height: 2.75rem; font-size: 1rem; }
+.student-profile h3 { font-size: 1.2rem; margin: 0; }
+.student-facts,
+.submission-facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem 1.4rem;
+  margin: 1.2rem 0 0;
+}
+.student-facts > div,
+.submission-facts > div { min-width: 0; }
+.student-facts dt,
+.submission-facts dt { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.35rem; }
+.student-facts dd,
+.submission-facts dd { margin: 0; font-size: 0.875rem; overflow-wrap: anywhere; }
+.submission-facts small { color: var(--muted); margin-top: 0.25rem; }
+.submission-sheet {
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+  border: 1px solid #e2e7d8;
+  border-radius: 0.6rem;
+  background: #fbfcf8;
+}
+.submission-sheet-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.submission-sheet h3 { font: 1.35rem/1.45 Georgia, serif; }
+.submission-copy {
+  max-height: 25rem;
+  overflow-y: auto;
+  font-size: 1rem;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.submission-copy p:last-child { margin-bottom: 0; }
+.submission-copy:focus-visible { outline: 2px solid #77984e; outline-offset: 2px; }
+.report-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  a.stat:hover { transform: translateY(-2px); }
+}
+@media (min-width: 640px) {
+  .student-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .submission-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) {
+  .case-overview { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media print {
+  .case-section-nav { display: none; }
+  .submission-copy { max-height: none; overflow: visible; }
+}

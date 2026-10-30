@@ -1,11 +1,13 @@
+from datetime import timedelta
 from django.apps import apps
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.test import TestCase, Client, override_settings
+from django.utils.html import escape
 from integrity import services
 from integrity.dataset import generate, TABLES
 from integrity.models import (
-    Assessment, Case, CaseEvent, Decision, EvidenceItem, Learner, Profile, Reviewer, SimilarityReport, TriageRecord,
+    Assessment, Assignment, Case, CaseEvent, Decision, EvidenceItem, Learner, Profile, Reviewer, SimilarityReport, Submission, TriageRecord,
 )
 
 @override_settings(PASSWORD_HASHERS=["django.contrib.auth.hashers.MD5PasswordHasher"])
@@ -215,3 +217,60 @@ class WorkflowTests(TestCase):
         case = services.submit_appeal(self.learner, case.id, case.version, "Request independent reconsideration of the original review.")
         with self.assertRaisesMessage(ValidationError, "including previous assignments"):
             services.assign_reviewer(self.admin, case.id, case.version, "REV-001", "Attempt reuse of an ended original assignment.")
+
+    def test_reviewer_queue_defaults_to_current_assignments_newest_first(self):
+        first = Case.objects.get(pk="INT-2026-000001")
+        Case.objects.filter(pk="INT-2026-000003").update(opened_at=first.opened_at + timedelta(hours=1))
+        second = Case.objects.get(pk="INT-2026-000002")
+        Assignment.objects.filter(case=second, reviewer_id="REV-001").update(ended_at=second.closed_at)
+        unassigned = self.new_case()
+        self.client.force_login(self.reviewer)
+        response = self.client.get("/")
+        ids = [case.id for case in response.context["page"]]
+        self.assertEqual(response.context["assignee"], "mine")
+        self.assertEqual(response.context["sort"], "newest")
+        self.assertEqual(ids, ["INT-2026-000003", "INT-2026-000001"])
+        self.assertNotIn(unassigned.id, ids)
+        self.assertEqual(response.context["counts"]["all"], 2)
+        all_cases = self.client.get("/?assignee=all")
+        self.assertEqual(all_cases.context["page"][0].id, unassigned.id)
+        self.assertEqual(all_cases.context["counts"]["all"], 4)
+
+    def test_assignment_filter_combines_with_status_search_and_sort(self):
+        second = Case.objects.get(pk="INT-2026-000002")
+        Assignment.objects.filter(case=second, reviewer_id="REV-001").update(ended_at=second.closed_at)
+        self.client.force_login(self.reviewer)
+        params = {"assignee": "mine", "state": "closed", "q": second.id, "sort": "oldest"}
+        self.assertEqual(self.client.get("/", params).context["page"].paginator.count, 0)
+        params["assignee"] = "all"
+        response = self.client.get("/", params)
+        self.assertEqual([case.id for case in response.context["page"]], [second.id])
+        fallback = self.client.get("/?assignee=unknown&sort=unknown")
+        self.assertEqual((fallback.context["assignee"], fallback.context["sort"]), ("mine", "newest"))
+
+    def test_assignment_scope_preserves_actor_access_boundaries(self):
+        for actor in [self.admin, self.support]:
+            self.client.force_login(actor)
+            response = self.client.get("/")
+            self.assertEqual(response.context["assignee"], "all")
+            self.assertEqual(response.context["counts"]["all"], 3)
+        self.client.force_login(self.learner)
+        for assignee in ["all", "mine"]:
+            response = self.client.get("/", {"assignee": assignee})
+            self.assertEqual([case.id for case in response.context["page"]], ["INT-2026-000001"])
+        self.assertEqual(self.client.get("/cases/INT-2026-000002/").status_code, 404)
+
+    def test_case_file_includes_own_student_details_and_escaped_original_work(self):
+        submission = Submission.objects.get(pk="SUB-2026-000001")
+        submission.content = "Original submitted text. <script>alert('unsafe')</script>"
+        submission.save(update_fields=["content"])
+        self.client.force_login(self.learner)
+        response = self.client.get("/cases/INT-2026-000001/")
+        self.assertContains(response, submission.learner.id)
+        self.assertContains(response, submission.learner.programme)
+        self.assertContains(response, submission.learner.email)
+        self.assertContains(response, escape(submission.title))
+        self.assertContains(response, "Original submitted text.")
+        self.assertContains(response, "&lt;script&gt;")
+        self.assertNotContains(response, "<script>alert('unsafe')</script>")
+        self.assertNotContains(response, "learner2@example.invalid")

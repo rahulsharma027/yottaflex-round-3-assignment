@@ -1,0 +1,29 @@
+<div data-case-summary>
+  <p class="summary-scope">{% if assignee == 'mine' %}<strong>Your assigned cases.</strong> Current original and appeal assignments, including completed cases.{% elif current_role == 'learner' %}<strong>Your cases.</strong> Follow the progress of your own submitted work.{% else %}<strong>All casework.</strong> Summary across the workspace.{% endif %}</p>
+  <div class="stats">
+    <a class="stat" data-queue-navigation href="{% querystring assignee=assignee state=None q=None page=None %}#case-queue" {% if not state %}aria-current="true"{% endif %}>
+      <div class="stat-top">Total cases <span class="stat-icon">{% include 'integrity/icon.html' with name='grid' %}</span></div>
+      <div class="stat-number">{{ counts.all }}</div>
+      <span class="stat-note">Across the case lifecycle</span>
+      <span class="stat-jump">View queue <span aria-hidden="true">↓</span></span>
+    </a>
+    <a class="stat" data-queue-navigation href="{% querystring assignee=assignee state='active' q=None page=None %}#case-queue" {% if state == 'active' %}aria-current="true"{% endif %}>
+      <div class="stat-top">Awaiting review <span class="stat-icon amber">{% include 'integrity/icon.html' with name='clock' %}</span></div>
+      <div class="stat-number">{{ counts.review }}</div>
+      <span class="stat-note"><span class="dot amber-dot"></span> Triage & active review</span>
+      <span class="stat-jump">View queue <span aria-hidden="true">↓</span></span>
+    </a>
+    <a class="stat" data-queue-navigation href="{% querystring assignee=assignee state='appeal' q=None page=None %}#case-queue" {% if state == 'appeal' %}aria-current="true"{% endif %}>
+      <div class="stat-top">Open appeals <span class="stat-icon lavender">{% include 'integrity/icon.html' with name='return' %}</span></div>
+      <div class="stat-number">{{ counts.appeal }}</div>
+      <span class="stat-note">An independent second look</span>
+      <span class="stat-jump">View queue <span aria-hidden="true">↓</span></span>
+    </a>
+    <a class="stat" data-queue-navigation href="{% querystring assignee=assignee state='closed' q=None page=None %}#case-queue" {% if state == 'closed' %}aria-current="true"{% endif %}>
+      <div class="stat-top">Closed cases <span class="stat-icon green">{% include 'integrity/icon.html' with name='check' %}</span></div>
+      <div class="stat-number">{{ counts.closed }}</div>
+      <span class="stat-note"><span class="dot green-dot"></span> Decisions with a recorded history</span>
+      <span class="stat-jump">View queue <span aria-hidden="true">↓</span></span>
+    </a>
+  </div>
+</div>

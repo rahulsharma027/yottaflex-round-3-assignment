@@ -8,6 +8,14 @@ Rahul wants a polished, friendly interface and straightforward local configurati
 
 ## First-run experience
 
+### Confirmed reviewer refinements (2026-10-30)
+
+- Summary cards remain visible, apply their status filter and smoothly lead down to the queue, with selected-state feedback and reduced-motion support.
+- Reviewer/instructor accounts default to Assigned to me and newest case opening date first. Assignment scope and sorting are separate, and scope/search/status/sort/page survive opening and returning from a case.
+- The user confirmed this case-file order: student details, submitted work, evidence, decisions and timeline, with actions alongside. The implementation also retains the required learner response between evidence and decisions. Section links make every part reachable on smaller screens.
+
+These refinements are implemented; VERIFICATION.md records the actual tests and browser checks. The first-run goals below retain their original target wording.
+
 Target journey: clone the repository, enter its directory, run one documented launcher command, and open the printed local URL with synthetic demo data ready.
 
 The proposed stack remains Python + Django + SQLite + custom templates/CSS and small JavaScript enhancements. A separate React application is an option, but visual quality does not require changing the proposed architecture. Choose the final stack based on both interaction needs and setup effort.

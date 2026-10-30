@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Interactive summary cards filter and smoothly scroll to the queue, with selected-state feedback, live result announcements and normal GET fallbacks.
+- Reviewers default to current Assigned to me cases, newest opening date first; assignment scope is separate from sorting and retained across filters, pagination and case return links.
+- Case files now lead with student details and full original submitted text, followed by evidence, response, decisions and dated timeline, with section navigation and actions alongside.
+
 - First-run login guide with the recommended administrator username, exact password-location/reprint instructions, role explanations and username shortcuts.
 - Clear account/password placeholders and sign-in progress text; smaller-screen visitors see the guide before focusing a field.
 - Already-authenticated visitors to the login page return to their workspace.

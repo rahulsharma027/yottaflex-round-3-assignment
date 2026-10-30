@@ -81,3 +81,15 @@ User prompt (verbatim):
 > portal is opening in browser, as expected, first page is login page as I can see, it is asking for username as password, it'll get confusing for people opening and running the project for the first time, a little guide on web will enhance the user experience, as what to fill in username and password to gain admin access and all those  things.
 
 AI assistance: added prominent administrator sign-in instructions, expandable password-file/reprint help, role descriptions and username-only shortcuts. Added login placeholders, retained normal password authentication, removed automatic focus that could skip the guide on phones, and redirected authenticated visitors to the workspace. Verified existing workflow tests, unauthenticated HTML without generated passwords, administrator sign-in/error states, and desktop/phone layouts. Tool/session export remains partial; no local passwords are included in this public record.
+
+## 2026-10-30 - Codex - interactive reviewer queue and case-file structure
+
+User prompt (verbatim):
+
+> I was going through the interface as all the actors, ui is good bug there are some issues, like when I click on the Total Cases, Awaiting review, Open appeals, closed cases, it has no go down animation, it feels static, it's good to keep the cards on the ui but it needs to be interactive, also in filters in reviewer section there are newest first, oldest and higher adjusted overlap, but no assigned to me filter, it is by default should be assigned to me as descending order by date, and if I open the case file it should clearly mention the student details, what he submitted and and timeline, most of the things are there but now in a structure that I want.
+
+Clarification asked: For the case-file layout, I’ll put learner details and submitted work first, followed by evidence, decisions, and the full timeline, with actions alongside. Is there a different order you prefer?
+
+User selected: Use this order.
+
+AI assistance: implemented scoped reviewer defaults, separate assignment/sort filters, animated queue navigation using authorized server-rendered HTML, URL/history preservation, and a structured student/submission/evidence/response/decision/timeline case file. Added focused tests for assignment dates/scope and escaped student/submission access, ran the full regression suite, and inspected desktop/phone/tablet behavior. Native scroll was inspected at normal speed; no system accessibility setting was changed. Exact tool payloads remain in the chat history and this prompt record remains partial.

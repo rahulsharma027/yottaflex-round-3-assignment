@@ -1,0 +1,58 @@
+<aside id="case-actions" class="case-rail" tabindex="-1" aria-label="Case actions">
+  <section class="panel padded">
+    <span class="eyebrow">CASE TEAM</span><h2>Assigned reviewers</h2>
+    <div class="assignment-list">
+    {% for assignment in assignments %}
+      <div class="assignment-person"><span class="avatar">{{ assignment.reviewer.initials }}</span><div><strong>{{ assignment.reviewer.name }}</strong><small>{{ assignment.get_phase_display }}{% if assignment.ended_at %} · Reassigned{% else %} · Current{% endif %}</small><small>Assigned {{ assignment.assigned_at|date:'d M Y' }}</small></div></div>
+    {% empty %}<p class="muted">No reviewers assigned. An administrator can choose an eligible reviewer below.</p>{% endfor %}
+    </div>
+  </section>
+  <section class="panel action-panel">
+    <div class="padded action-intro"><span class="eyebrow">NEXT STEPS</span><h2>Move the case forward</h2><p class="muted small-text">Actions are saved with a timeline entry.</p></div>
+    {% if is_admin and review_open %}
+    <details {% if bound_action == 'assign' or case.state == 'triage' %}open{% endif %}>
+      <summary>Assign or replace reviewer</summary>
+      <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="assign">{% include 'integrity/fields.html' with form=forms.assign %}<button type="submit" class="button primary full">Assign reviewer</button></form>
+    </details>
+    {% endif %}
+    {% if can_notify %}
+    <details {% if bound_action == 'notify' %}open{% endif %}>
+      <summary>Record learner notice</summary>
+      <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="notify"><p class="small-text muted">This records an in-app notice. It does not send an email.</p>{% include 'integrity/fields.html' with form=forms.notify %}<button type="submit" class="button primary full">Record notice</button></form>
+    </details>
+    {% endif %}
+    {% if can_respond %}
+    <details {% if bound_action == 'response' %}open{% endif %}>
+      <summary>Submit your response</summary>
+      <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="response">{% include 'integrity/fields.html' with form=forms.response %}<button type="submit" class="button primary full">Submit response</button></form>
+    </details>
+    {% endif %}
+    {% if review_open %}
+    <details {% if bound_action == 'evidence' %}open{% endif %}>
+      <summary>Add evidence or a new version</summary>
+      <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="evidence">{% include 'integrity/fields.html' with form=forms.evidence %}<button type="submit" class="button primary full">Add evidence</button></form>
+    </details>
+    {% endif %}
+    {% if can_decide %}
+    <details {% if bound_action == 'decision' or not bound_action %}open{% endif %}>
+      <summary>Record {% if case.state == 'appeal' %}appeal {% endif %}decision</summary>
+      <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="decision">{% include 'integrity/fields.html' with form=forms.decision %}<button type="submit" class="button primary full">Record decision</button></form>
+    </details>
+    {% endif %}
+    {% if can_appeal %}
+    <details {% if bound_action == 'appeal' %}open{% endif %}>
+      <summary>Submit an appeal</summary>
+      <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="appeal">{% include 'integrity/fields.html' with form=forms.appeal %}<button type="submit" class="button primary full">Submit appeal</button></form>
+    </details>
+    {% endif %}
+    {% if is_admin and case.state == 'decided' %}
+    <details {% if bound_action == 'close' %}open{% endif %}>
+      <summary>Close this case</summary>
+      <form method="post" class="action-form">{% csrf_token %}<input type="hidden" name="action" value="close">{% include 'integrity/fields.html' with form=forms.close %}<button type="submit" class="button primary full">Close case</button></form>
+    </details>
+    {% endif %}
+    {% if not review_open and not can_appeal and case.state != 'decided' %}<p class="padded muted">This case is closed. The complete record remains available in the case file.</p>{% endif %}
+    {% if review_open and not is_admin and not can_decide and current_role != 'learner' %}<p class="padded small-text muted">An assigned reviewer records decisions. Academic administrators manage assignments.</p>{% endif %}
+  </section>
+  <div class="rail-note">{% include 'integrity/icon.html' with name='shield' %}<p>Evidence and decisions are retained. Late evidence belongs in an open appeal, with its own history.</p></div>
+</aside>

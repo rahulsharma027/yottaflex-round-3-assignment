@@ -22,6 +22,8 @@ Source: interpretation in PROJECT_BREAKDOWN.md and LLM_PROJECT_PROMPT.md. Origin
 | Meaningful metrics | validation.py, DATASET.md formulas | Recorded actual denominators/results |
 | All five actor roles | Profile and service permissions | Ownership/access/assignment/CSRF tests |
 | Friendly responsive UI | Custom local templates/CSS; mobile navigation | Actual browser inspection in VERIFICATION.md |
+| Reviewer workload defaults and interactive summaries | Current-assignment filter, stable newest-first dates, authorized HTML queue updates and scroll targets | Scope/date/access tests; summary/history/pagination browser checks |
+| Clear student/submission-first case files | Student facts, original work, section links, evidence/response/decisions/timeline and adjacent actions | Escaped-content/ownership test; desktop/phone/tablet inspection |
 | Simple non-destructive clone/run | run.py + README | Clean-copy and repeat-run verification |
 | All reviewer material within this repo | Source, docs, archive, evidence in Yotta | Clean-copy run without parent files |
 | AI prompts and reliance disclosure | docs/ai | Partial record explicit; export reconciliation pending |
