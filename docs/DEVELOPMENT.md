@@ -56,4 +56,8 @@ Reviewer/instructor defaults now use current assignments across original and app
 
 Summary cards, tabs, filters and pagination progressively fetch authorized HTML and replace only the queue/summary. Cards clear search/page before applying a status and move smoothly to the queue; selection, focus, announcements, browser history and real fallback URLs keep navigation understandable. Superseded requests are aborted, reduced-motion preferences bypass smooth motion, and ordinary case-return links retain scope/search/sort/page and the queue anchor. No extra frontend runtime or API was added.
 
+### Assignment scope navigation correction
+
+The first status tab was labelled All cases while retaining the current assignment scope. A reviewer could therefore click it and still see only their own cases. Replaced the assignment dropdown with explicit Assigned to me / All cases links that apply immediately using the existing queue navigation. Renamed the status reset to All statuses. Scope switches preserve applied search, status and sort, and reset pagination; the form carries the selected scope in a hidden field. The reviewer default remains Assigned to me / Newest first. Links also work as normal GET navigation without JavaScript. Authorization and case data are unchanged.
+
 Case files now present student ID/programme/email, the full escaped submission text and assessment metadata, evidence, learner response, retained decisions and full dated timeline. A section bar and case-actions link help on small screens; team/actions remain alongside on desktop. Domain write services and the v1.0.0 baseline tag are unchanged. Existing local reviewer data was preserved.

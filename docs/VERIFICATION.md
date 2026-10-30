@@ -83,3 +83,9 @@ Inspected desktop 1440×1000, phone 375×812 and tablet 768×1024. Native smooth
 Screenshots: reviewer-workspace-desktop.png, reviewer-queue-phone.png, case-file-structured-desktop.png, case-file-structured-phone.png, case-file-structured-tablet.png and case-submission-desktop.png under docs/screenshots. Counts in these screenshots reflect the live selected scope and may differ from the packaged baseline after reviewer changes. No dataset-generation/export artifacts changed.
 
 The independent appeal reviewer was also checked in the browser: its own Assigned to me scope loaded, the zero Awaiting review count led to a recoverable empty queue, and Open appeals restored its assigned appeal list. All these interactions were read-only apart from normal sign-in/session updates.
+
+## Assignment scope navigation correction
+
+All 31 tests passed on Python 3.14.10 (1.686 s test-body time), with no Django system-check issues. The new regression follows the actual rendered scope links from Assigned to me to All cases and back, checks inclusion/exclusion of an unassigned case, selected-state attributes, retained search/status/sort and reset pagination. This catches the link-level problem that the earlier direct-query tests missed. Git whitespace validation passed.
+
+Browser verification at 1440×1000 and 375×812 used the existing appeal reviewer session: Assigned to me showed 108 cases, All cases showed 300, and switching back restored 108 without Apply. Browser Back restored All cases. Live result announcements confirmed progressive navigation, and no browser console errors were recorded. Both scope controls fit the phone viewport with clear selected styling. No live cases were edited or reseeded. Screenshots: [desktop](screenshots/reviewer-scope-switch-desktop.png), [phone](screenshots/reviewer-scope-switch-phone.png). Older screenshots retain the earlier dropdown UI as historical verification.

@@ -6,8 +6,14 @@
     </div>
     <span class="pill neutral">SYNTHETIC DATA</span>
   </div>
+  {% if can_filter_assignments %}
+  <nav class="assignment-scope" aria-label="Case assignment scope">
+    <a data-queue-navigation data-assignment-scope="mine" href="{% querystring assignee='mine' page=None %}#case-queue" {% if assignee == 'mine' %}aria-current="true"{% endif %}>Assigned to me</a>
+    <a data-queue-navigation data-assignment-scope="all" href="{% querystring assignee='all' page=None %}#case-queue" {% if assignee == 'all' %}aria-current="true"{% endif %}>All cases</a>
+  </nav>
+  {% endif %}
   <div class="queue-tabs">
-    <a class="tab {% if not state %}selected{% endif %}" data-queue-navigation href="{% querystring assignee=assignee state=None page=None %}#case-queue" {% if not state %}aria-current="page"{% endif %}>All cases <span>{{ counts.all }}</span></a>
+    <a class="tab {% if not state %}selected{% endif %}" data-queue-navigation href="{% querystring assignee=assignee state=None page=None %}#case-queue" {% if not state %}aria-current="page"{% endif %}>All statuses <span>{{ counts.all }}</span></a>
     <a class="tab {% if state == 'active' %}selected{% endif %}" data-queue-navigation href="{% querystring assignee=assignee state='active' page=None %}#case-queue" {% if state == 'active' %}aria-current="page"{% endif %}>Needs review <span>{{ counts.review }}</span></a>
     <a class="tab {% if state == 'appeal' %}selected{% endif %}" data-queue-navigation href="{% querystring assignee=assignee state='appeal' page=None %}#case-queue" {% if state == 'appeal' %}aria-current="page"{% endif %}>Appeals <span>{{ counts.appeal }}</span></a>
     <a class="tab {% if state == 'closed' %}selected{% endif %}" data-queue-navigation href="{% querystring assignee=assignee state='closed' page=None %}#case-queue" {% if state == 'closed' %}aria-current="page"{% endif %}>Closed <span>{{ counts.closed }}</span></a>
@@ -21,15 +27,7 @@
         <input id="case-search" name="q" value="{{ query }}" placeholder="Case ID, student or assessment…">
       </div>
     </div>
-    {% if can_filter_assignments %}
-    <div class="filter-control">
-      <label for="case-assignee">Assignments</label>
-      <select id="case-assignee" name="assignee">
-        <option value="mine" {% if assignee == 'mine' %}selected{% endif %}>Assigned to me</option>
-        <option value="all" {% if assignee == 'all' %}selected{% endif %}>All cases</option>
-      </select>
-    </div>
-    {% else %}<input type="hidden" name="assignee" value="{{ assignee }}">{% endif %}
+    <input type="hidden" name="assignee" value="{{ assignee }}">
     <div class="filter-control">
       <label for="case-sort">Sort by</label>
       <select id="case-sort" name="sort">
@@ -56,7 +54,7 @@
           <td><a class="arrow-link" aria-label="Open {{ case.id }}" href="{% url 'case-detail' case.id %}?back={{ request.get_full_path|urlencode }}%23case-queue">{% include 'integrity/icon.html' with name='arrow' %}</a></td>
         </tr>
       {% empty %}
-        <tr><td colspan="6"><div class="empty-state"><h3>No cases match this view.</h3><p>{% if assignee == 'mine' %}Try another filter or switch Assignments to All cases.{% else %}Try another search or reset your filters.{% endif %}</p><a class="button secondary" data-queue-navigation href="{% url 'cases' %}?assignee={{ default_assignee }}&amp;sort=newest#case-queue">Clear filters</a></div></td></tr>
+        <tr><td colspan="6"><div class="empty-state"><h3>No cases match this view.</h3><p>{% if assignee == 'mine' %}Try another filter or switch to All cases above.{% else %}Try another search or reset your filters.{% endif %}</p><a class="button secondary" data-queue-navigation href="{% url 'cases' %}?assignee={{ default_assignee }}&amp;sort=newest#case-queue">Clear filters</a></div></td></tr>
       {% endfor %}
       </tbody>
     </table>

@@ -2262,6 +2262,30 @@ html {
 .filter-control select { width: 100%; }
 .queue-filter > button,
 .queue-filter > .reset-link { align-self: flex-end; }
+.assignment-scope {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0 1.4rem 0.8rem;
+}
+.assignment-scope a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  font-size: 0.875rem;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.assignment-scope a:hover { background: #e7eedf; }
+.assignment-scope a[aria-current="true"] {
+  background: var(--forest);
+  border-color: var(--forest);
+  color: white;
+  font-weight: 700;
+}
 
 /* Case files read from student and original work through evidence to the outcome. */
 .case-file-heading .heading-actions { align-items: center; }

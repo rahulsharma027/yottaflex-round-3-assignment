@@ -51,7 +51,7 @@ After signing in as administrator, start with **Explore demo cases**, then try *
 
 Additional instructor accounts `reviewer-theo`, `reviewer-anika` and `reviewer-evan` let all six reviewer profiles participate. Evan has a documented conflict with learner LRN-00001 and cannot review that learner's cases.
 
-Reviewer accounts open **Assigned to me**, sorted by case opening date newest first. Use the separate **Assignments** filter to switch to All cases. Summary cards show counts within the selected scope; selecting one updates and smoothly scrolls to its filtered queue. Search, status, assignment, sorting and pagination remain in the URL when returning from a case.
+Reviewer accounts open **Assigned to me**, sorted by case opening date newest first. Select **All cases** above the status tabs to switch scope immediately, or **Assigned to me** to return. **All statuses** clears only the status filter. Summary cards show counts within the selected scope; selecting one updates and smoothly scrolls to its filtered queue. Search, status, assignment, sorting and pagination remain in the URL when returning from a case.
 
 Case files lead with student details and the original submitted work, then evidence, learner response, decisions and the complete timeline. Section links jump directly to each part or to the case actions. The submitted text remains escaped, and learner access remains limited to their own cases.
 

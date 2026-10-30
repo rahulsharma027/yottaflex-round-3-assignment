@@ -1,4 +1,5 @@
 from datetime import timedelta
+from html.parser import HTMLParser
 from django.apps import apps
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -247,6 +248,40 @@ class WorkflowTests(TestCase):
         self.assertEqual([case.id for case in response.context["page"]], [second.id])
         fallback = self.client.get("/?assignee=unknown&sort=unknown")
         self.assertEqual((fallback.context["assignee"], fallback.context["sort"]), ("mine", "newest"))
+
+    def test_assignment_scope_links_switch_both_directions_and_keep_filters(self):
+        class ScopeLinks(HTMLParser):
+            def __init__(self, response):
+                super().__init__()
+                self.links = {}
+                self.feed(response.content.decode())
+
+            def handle_starttag(self, tag, attrs):
+                attrs = dict(attrs)
+                if tag == "a" and "data-assignment-scope" in attrs:
+                    self.links[attrs["data-assignment-scope"]] = attrs
+
+        unassigned = self.new_case()
+        self.client.force_login(self.reviewer)
+        mine = self.client.get("/")
+        links = ScopeLinks(mine).links
+        self.assertEqual(links["mine"].get("aria-current"), "true")
+        all_cases = self.client.get(links["all"]["href"])
+        self.assertEqual(all_cases.context["assignee"], "all")
+        self.assertIn(unassigned, all_cases.context["page"])
+        links = ScopeLinks(all_cases).links
+        self.assertEqual(links["all"].get("aria-current"), "true")
+        mine_again = self.client.get(links["mine"]["href"])
+        self.assertEqual(mine_again.context["assignee"], "mine")
+        self.assertNotIn(unassigned, mine_again.context["page"])
+        filtered = self.client.get("/?assignee=mine&state=closed&q=INT-2026&sort=oldest&page=2")
+        switched = self.client.get(ScopeLinks(filtered).links["all"]["href"])
+        self.assertEqual(switched.context["assignee"], "all")
+        self.assertEqual(switched.context["state"], "closed")
+        self.assertEqual(switched.context["query"], "INT-2026")
+        self.assertEqual(switched.context["sort"], "oldest")
+        self.assertEqual(switched.context["page"].number, 1)
+        self.assertContains(switched, "All statuses")
 
     def test_assignment_scope_preserves_actor_access_boundaries(self):
         for actor in [self.admin, self.support]:

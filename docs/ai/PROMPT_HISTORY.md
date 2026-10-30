@@ -93,3 +93,11 @@ Clarification asked: For the case-file layout, I’ll put learner details and su
 User selected: Use this order.
 
 AI assistance: implemented scoped reviewer defaults, separate assignment/sort filters, animated queue navigation using authorized server-rendered HTML, URL/history preservation, and a structured student/submission/evidence/response/decision/timeline case file. Added focused tests for assignment dates/scope and escaped student/submission access, ran the full regression suite, and inspected desktop/phone/tablet behavior. Native scroll was inspected at normal speed; no system accessibility setting was changed. Exact tool payloads remain in the chat history and this prompt record remains partial.
+
+## 2026-10-30 - Codex - reviewer All cases correction
+
+User prompt (verbatim):
+
+> for a reviewer assigned to me button is working and set to default, going back to all cases is not working
+
+AI assistance: found that the All cases status tab preserved the Assigned to me scope. Added explicit immediate assignment-scope links, renamed the status reset All statuses, and removed the redundant assignment dropdown. Added a regression that follows rendered links in both directions and verifies retained filters and reset pagination. All 31 tests passed; desktop and phone browser checks confirmed immediate switching and browser history. Documented results and screenshots; no live cases were edited.

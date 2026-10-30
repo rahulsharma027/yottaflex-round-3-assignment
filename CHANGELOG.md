@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fixed ambiguous reviewer scope navigation: Assigned to me and All cases now switch immediately; the separate status-reset tab is labelled All statuses.
 - Interactive summary cards filter and smoothly scroll to the queue, with selected-state feedback, live result announcements and normal GET fallbacks.
 - Reviewers default to current Assigned to me cases, newest opening date first; assignment scope is separate from sorting and retained across filters, pagination and case return links.
 - Case files now lead with student details and full original submitted text, followed by evidence, response, decisions and dated timeline, with section navigation and actions alongside.

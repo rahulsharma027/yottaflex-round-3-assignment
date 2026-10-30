@@ -10,7 +10,7 @@ On the login page, **Your first sign-in** recommends `academic-admin`. Use the u
 
 ## A new case from start to appeal
 
-Reviewer accounts initially show **Assigned to me**, newest opened cases first. Use Assignments → All cases for the wider authorized workspace. Click a summary card to filter and move smoothly down to the queue; tabs, search and pagination retain the selected assignment scope. Opening a case and using Back to case queue preserves those choices.
+Reviewer accounts initially show **Assigned to me**, newest opened cases first. Select **All cases** above the status tabs for the wider authorized workspace; select **Assigned to me** to return. These scope controls apply immediately. **All statuses** clears only the status filter. Click a summary card to filter and move smoothly down to the queue; tabs, search and pagination retain the selected assignment scope. Opening a case and using Back to case queue preserves those choices.
 
 In the case file, read Student details → Submitted work → Evidence → Response → Decisions → Timeline. The section bar and Case actions link avoid scrolling through the entire file to find a specific part.
 
