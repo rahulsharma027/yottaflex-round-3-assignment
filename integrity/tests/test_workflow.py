@@ -201,6 +201,12 @@ class WorkflowTests(TestCase):
         second = services.create_submission(*values, request_key="same-request")
         self.assertEqual(first.id, second.id)
 
+    def test_inactive_workspace_account_cannot_receive_assignment(self):
+        case = self.new_case()
+        User.objects.filter(pk=self.appeal.pk).update(is_active=False)
+        with self.assertRaisesMessage(ValidationError, "active workspace account"):
+            services.assign_reviewer(self.admin, case.id, case.version, "REV-003", "Inactive account must not receive an actionable assignment.")
+
     def test_reassigned_original_reviewer_remains_ineligible_for_appeal(self):
         case = self.prepare_review()
         old = case.assignments.get(reviewer_id="REV-001")

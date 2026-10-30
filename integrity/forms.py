@@ -12,7 +12,7 @@ class ReasonForm(VersionForm):
     reason = forms.CharField(min_length=15, max_length=5000, label="Reason", widget=forms.Textarea(attrs={"rows": 4}))
 
 class AssignmentForm(ReasonForm):
-    reviewer = NamedChoice(queryset=Reviewer.objects.filter(active=True))
+    reviewer = NamedChoice(queryset=Reviewer.objects.filter(active=True, user__is_active=True))
     replace = forms.ChoiceField(required=False, label="Replace assignment (optional)")
     field_order = ["version", "reviewer", "replace", "reason"]
     def __init__(self, *args, case, **kwargs):

@@ -1,0 +1,129 @@
+{
+  "baseline_findings": [],
+  "counts": {
+    "appeal": 108,
+    "assessment": 5,
+    "assignment": 412,
+    "case": 300,
+    "caseevent": 2126,
+    "decision": 266,
+    "decisionevidence": 326,
+    "evidenceitem": 360,
+    "integrityrule": 1,
+    "learner": 2000,
+    "reviewer": 6,
+    "reviewerconflict": 1,
+    "similarityreport": 10000,
+    "submission": 10000,
+    "triagerecord": 650
+  },
+  "detection_confusion": {
+    "false_negative": 0,
+    "false_positive": 0,
+    "true_positive": 4
+  },
+  "execution": {
+    "elapsed_seconds": 1.219,
+    "python": "3.14.10 (tags/v3.14.10:b703b2c, Oct 25 2026, 17:36:52) [MSC v.1944 64 bit (AMD64)]",
+    "ran_at_utc": "2026-10-30T03:41:14.448224+00:00"
+  },
+  "metrics": {
+    "appeal_overturn_rate": 1.0,
+    "audit_complete_case_rate": 1.0,
+    "closed_case_mean_hours": 39.909091,
+    "false_positive_rate": 0.1,
+    "flag_precision": 0.2,
+    "flag_rate": 0.1,
+    "flag_to_case_rate": 0.3,
+    "process_detection_precision": 1.0,
+    "process_detection_recall": 1.0
+  },
+  "negative_results": [
+    {
+      "findings": [
+        {
+          "code": "automatic_guilt",
+          "detail": "A similarity warning was recorded as a finding without substantive rationale and evidence.",
+          "record_id": "DEC-INT-2026-000001-01"
+        }
+      ],
+      "fixture_id": "automatic_guilt"
+    },
+    {
+      "findings": [
+        {
+          "code": "conflicted_reviewer",
+          "detail": "Assigned reviewer has a recorded learner conflict.",
+          "record_id": "ASG-INT-2026-000001-001"
+        }
+      ],
+      "fixture_id": "conflicted_reviewer"
+    },
+    {
+      "findings": [
+        {
+          "code": "unlogged_late_evidence",
+          "detail": "Evidence was not available when this decision was made.",
+          "record_id": "EVD-INT-2026-000001-001"
+        },
+        {
+          "code": "unlogged_late_evidence",
+          "detail": "Evidence lacks a matching, timestamped provenance event.",
+          "record_id": "EVD-INT-2026-000001-001"
+        }
+      ],
+      "fixture_id": "unlogged_late_evidence"
+    },
+    {
+      "findings": [
+        {
+          "code": "nonindependent_appeal",
+          "detail": "Appeal reviewer participated in original review.",
+          "record_id": "ASG-INT-2026-000004-APL"
+        },
+        {
+          "code": "nonindependent_appeal",
+          "detail": "Appeal decision author is not independent.",
+          "record_id": "DEC-INT-2026-000004-02"
+        }
+      ],
+      "fixture_id": "nonindependent_appeal"
+    }
+  ],
+  "passed": true,
+  "reproducibility": {
+    "all_checksums_match": true,
+    "counts_match": true,
+    "mode": "full",
+    "seed": 20261022,
+    "sha256": {
+      "appeal.csv": "66b0b601d8e5110fbaa8b096b21b0269373166239e5ae5abb7c50387b916e036",
+      "assessment.csv": "8822c1b2c38fbb580603d5d6e57de67ca02e8295d0348900d3aa28cc31670620",
+      "assignment.csv": "2a28450d9e06e1a26b1dc44d574958d89e2be090cb2aad07d2c2870a7e341c38",
+      "case.csv": "81b8a703ae02149f3089feed99401db42eb61e6d06d24aa47f758be6dfa8c04f",
+      "caseevent.csv": "f95b3cb3d85e63f5889c0cf2b816448c858579ec308dc14934bbd4b734d91757",
+      "data.json": "5068422250ae5e054ca14910c3d73d37ecb61d8431d7d22dc95e38014a916968",
+      "decision.csv": "acecccf3327656acbf70d0ec0dfb36400f0cc9ad993c55e03ca035143a387273",
+      "decisionevidence.csv": "aeee8a3f5ae61b691fbeb7836b7167a7f1172b8c007e6b477bafe9cd76e60e3e",
+      "evidenceitem.csv": "ab6129c6dc206fb4558b923cbf1a007102d5e630aa58535f45db318c25a6af6e",
+      "ground_truth.json": "a5d0e2a8eb8cadaece4c266012e5da861dd206441b0ef8a29592b1ed95c343cb",
+      "integrityrule.csv": "81dbc7851579db7707980574aacbe07fa0752e96b375d89bcfa53cdfc35f61cf",
+      "learner.csv": "6c39485128afd514a149568cf491bc793f111fe6833f8260587c7c9d8b5fdd22",
+      "negative_fixtures.json": "4c019d1b397900eeb32610e0f024232eaedbc80ff4f3cb89c4913cc461e9ec69",
+      "negative_ground_truth.json": "e4783e71cea1157418193242b84109c91f3b55ca8cd51584a8c4e92466ac2be1",
+      "reviewer.csv": "309484377a84f2860e7bcb50c114a7ce8f017f1d3ffff0de7466e0160779bb7a",
+      "reviewerconflict.csv": "90d4eca0d777fbc3b8f8c9aa959b1c5ee571960ce2995116abb4629895c2087b",
+      "seed.sql": "82e9bdd1ad090c600d1cefae8bfd199cb8b1afb12488444c465167a67883742f",
+      "similarityreport.csv": "3659769ad70312a059c571e9de9ba7ac7f44ecfe44c19c2bee9896fa87d9fc0f",
+      "submission.csv": "06bb00e6ff96b7dbe7d658754dd41ecf9c57c7a82e13a474951bff7a15da5db9",
+      "triagerecord.csv": "cb581687579ceebeb0ba5002a472b357613fcf4a7b09e06b9cb7b7789932eb1d"
+    }
+  },
+  "scenario_coverage": {
+    "false_positive": 2000,
+    "legitimate_quotation": 2000,
+    "shared_template": 2000,
+    "successful_appeal": 2000,
+    "unattributed_copying": 2000
+  }
+}

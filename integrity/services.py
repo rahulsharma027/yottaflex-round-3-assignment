@@ -45,6 +45,8 @@ def reason_required(reason):
 def eligible(case, reviewer, phase):
     if not reviewer.active:
         raise ValidationError("This reviewer is inactive.")
+    if not reviewer.user_id or not reviewer.user.is_active:
+        raise ValidationError("This reviewer needs an active workspace account before assignment or decision.")
     if ReviewerConflict.objects.filter(reviewer=reviewer, learner=case.report.submission.learner).exists():
         raise ValidationError("Conflict of interest: choose another reviewer.")
     if phase == "appeal" and Assignment.objects.filter(case=case, reviewer=reviewer, phase="original").exists():

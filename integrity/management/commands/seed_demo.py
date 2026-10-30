@@ -11,6 +11,8 @@ from integrity.models import Learner, Profile, Reviewer, SeedState, Submission
 ACCOUNTS = [
     ("academic-admin", "academic_admin", None), ("reviewer", "instructor", "REV-001"),
     ("second-reviewer", "instructor", "REV-002"), ("appeal-reviewer", "instructor", "REV-003"),
+    ("reviewer-theo", "instructor", "REV-004"), ("reviewer-anika", "instructor", "REV-005"),
+    ("reviewer-evan", "instructor", "REV-006"),
     ("learner", "learner", "LRN-00001"), ("support", "support", None),
     ("platform-admin", "platform_admin", None),
 ]
@@ -50,4 +52,3 @@ class Command(BaseCommand):
                     model.objects.filter(pk=record_id).update(user=user)
             SeedState.objects.create(key="demo-v1", mode=options["mode"], seed=SEED)
         self.stdout.write(self.style.SUCCESS(f"Installed {options['mode']} dataset: {len(data['submission'])} submissions, {sum(r['flagged'] for r in data['similarityreport'])} flags, {len(data['case'])} cases."))
-
