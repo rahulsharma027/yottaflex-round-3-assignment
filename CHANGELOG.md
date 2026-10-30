@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fixed dataset information leakage in generator revision 2: academic original text omits future case/appeal findings; scenarios and assessments use separate seeded shuffled plans with stable walkthroughs. Regenerated CSV/JSON/SQL archive and cross-runtime proof; existing workspaces are preserved with a legacy-data warning.
+
 - Fixed learner evidence replacement: learners may revise only their own current evidence in their own cases; separate rebuttals remain available, with the same replacement policy enforced by the form and domain service.
 - Fixed blocked cases for learners without logins: administrators/support can record an externally received learner response with its source, staff attribution and retained history; notice and decision prerequisites remain enforced.
 - Navy navigation and login branding, blue actions/selection/focus accents, and white/light blue-gray content surfaces throughout the portal; distinct case-status colors are retained.

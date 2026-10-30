@@ -33,6 +33,17 @@ python run.py --reset-demo --confirm-reset  # explicitly DELETE local changes an
 
 Stop the server before resetting. A reset requires both flags, retains the signing secret, and generates new passwords. Changing `--mode` does not replace existing data. Set `YOTTA_LOCAL_DIR` to use an independent workspace; never publish that directory. Back up `.local/yotta.sqlite3` while stopped to preserve interactive work.
 
+### Refreshed dataset for existing users
+
+Fresh setups use **generator revision 2**, with academic submission text and separately shuffled scenarios/assessments. Existing workspaces retain their earlier dataset and edits. To inspect corrected data without resetting edits, stop the app and open a separate workspace. In PowerShell:
+
+```powershell
+$env:YOTTA_LOCAL_DIR = ".local/generator-v2"
+python run.py
+```
+
+On macOS/Linux: `YOTTA_LOCAL_DIR=.local/generator-v2 python3 run.py`. This creates a separate dataset and credentials under the ignored `.local` directory; use its printed passwords. To return to the original workspace, remove the environment override before launching (PowerShell: `Remove-Item Env:YOTTA_LOCAL_DIR`).
+
 ### Your first sign-in
 
 The login page includes a **Your first sign-in** guide. Select **Use this username** for `academic-admin`, then paste that account’s generated password from the launcher terminal. **Can’t find the password?** explains the credentials file and how to print the details again with `python run.py --setup-only`. **Want to try a different role?** describes the accounts and provides username shortcuts. Each account still requires its own password.

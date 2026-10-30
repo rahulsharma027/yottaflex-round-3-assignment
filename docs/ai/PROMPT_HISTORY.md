@@ -151,3 +151,11 @@ User prompt (verbatim):
 > lets move to F2
 
 AI assistance: added a failing regression for learner supersession of staff evidence, then enforced a shared replacement policy in the authenticated form and service. Learners can add separate rebuttals and revise only their own current evidence within their own case; staff correction authority and retained decision/history references remain. Added five meaningful regression tests and adjusted the earlier late-evidence history test to use an authorized staff correction. All 41 tests passed, with migration/system/whitespace checks and isolated desktop/phone browser verification. Updated documentation and screenshots, preserved live cases and data, and prepared F2 as its own commit. F3–F6, including prompt-record reconciliation, remain open.
+
+## 2026-10-30 - Codex - audit F3 generator information boundaries
+
+User prompt (verbatim):
+
+> sure, let's fix f3
+
+AI assistance: reproduced future appeal text and assessment/scenario coupling with failing tests, then introduced generator revision 2 with academic original text and separately seeded shuffled scenario/assessment plans. Preserved walkthroughs and dated appeal-evidence boundaries. Added descriptive evaluation-only distribution summaries; regenerated the archive and Python 3.12/3.14 proof with matching per-file hashes and verified archive contents. Added seed-version/preservation tests; all 46 tests passed. Browser verification used a fresh isolated full v2 workspace, leaving existing cases/passwords intact. Documented the separate-workspace command and legacy warning. F4–F6 remain open, including full prompt-record reconciliation.

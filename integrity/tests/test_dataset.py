@@ -2,12 +2,55 @@ import copy
 import json
 import sqlite3
 import tempfile
+from collections import Counter, defaultdict
 from pathlib import Path
 from django.test import SimpleTestCase
 from integrity.dataset import generate, negative_fixtures, write_exports
 from integrity.validation import evaluate, validate
 
 class DatasetTests(SimpleTestCase):
+    def test_original_submissions_do_not_disclose_process_events_or_findings(self):
+        data, _ = generate("full")
+        for submission in data["submission"]:
+            text = submission["content"].lower()
+            for term in ["appeal", "overturned", "misconduct", "cleared", "reviewer", "evidence bundle", "initial report", "source comparison"]:
+                self.assertNotIn(term, text, submission["id"])
+        assessment_titles = {a["id"]: a["title"] for a in data["assessment"]}
+        for submission in data["submission"]:
+            self.assertTrue(submission["title"].startswith(assessment_titles[submission["assessment_id"]]))
+
+    def test_scenarios_are_mixed_across_assessments_learners_and_score_strata(self):
+        for seed in [20261022, 1]:
+            data, truth = generate("full", seed)
+            labels = {row["submission_id"]: row for row in truth}
+            for group in [data["submission"], data["submission"][:300], data["submission"][:1000], data["submission"][1000:]]:
+                by_assessment = defaultdict(set)
+                for submission in group:
+                    by_assessment[submission["assessment_id"]].add(labels[submission["id"]]["scenario"])
+                self.assertEqual(len(by_assessment), 5)
+                self.assertTrue(all(len(scenarios) == 5 for scenarios in by_assessment.values()))
+            by_learner = defaultdict(set)
+            for submission in data["submission"]:
+                by_learner[submission["learner_id"]].add(labels[submission["id"]]["misconduct"])
+            self.assertGreater(sum(len(outcomes) == 2 for outcomes in by_learner.values()), len(by_learner) // 2)
+            self.assertEqual(set(Counter(row["scenario"] for row in truth).values()), {2000})
+            self.assertEqual(set(Counter(row["scenario"] for row in truth[:1000]).values()), {200})
+
+    def test_walkthroughs_and_appeal_evidence_keep_their_historical_boundaries(self):
+        data, truth = generate("full")
+        self.assertEqual([row["scenario"] for row in truth[:4]],
+            ["legitimate_quotation", "shared_template", "false_positive", "successful_appeal"])
+        original = next(d for d in data["decision"] if d["case_id"] == "INT-2026-000004" and d["phase"] == "original")
+        appeal = next(d for d in data["decision"] if d["case_id"] == "INT-2026-000004" and d["phase"] == "appeal")
+        late = next(e for e in data["evidenceitem"] if e["case_id"] == "INT-2026-000004" and e["title"] == "Dated bibliography and draft")
+        self.assertLess(original["decided_at"], late["added_at"])
+        self.assertLess(late["added_at"], appeal["decided_at"])
+        original_links = {r["evidence_id"] for r in data["decisionevidence"] if r["decision_id"] == original["id"]}
+        self.assertNotIn(late["id"], original_links)
+        for item in data["evidenceitem"]:
+            if item["added_at"] < original["decided_at"]:
+                self.assertNotIn("on appeal", item["excerpt"].lower())
+
     def test_full_counts_scenarios_and_baseline(self):
         data, truth = generate()
         self.assertEqual((len(data["submission"]), sum(r["flagged"] for r in data["similarityreport"]), len(data["case"])), (10000, 1000, 300))

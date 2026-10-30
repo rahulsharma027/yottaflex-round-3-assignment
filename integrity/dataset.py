@@ -10,7 +10,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 SEED = 20261022
+GENERATOR_VERSION = 2
 SCALES = {"starter": (100, 10, 3), "full": (10000, 1000, 300)}
+SCENARIOS = ("legitimate_quotation", "shared_template", "false_positive", "successful_appeal", "unattributed_copying")
 BASE = datetime(2026, 9, 1, 8, tzinfo=timezone.utc)
 TABLES = ["learner", "assessment", "integrityrule", "reviewer", "reviewerconflict", "submission",
           "similarityreport", "triagerecord", "case", "assignment", "evidenceitem", "decision", "decisionevidence", "appeal", "caseevent"]
@@ -30,6 +32,42 @@ REFERENCES = {
 
 def at(hours):
     return (BASE + timedelta(hours=hours)).isoformat()
+
+def scenario_order(count, flags, case_count, seed):
+    """Balance each score stratum, shuffle scenarios, and reserve the walkthroughs."""
+    rng = random.Random(f"{seed}:scenarios")
+    result = []
+    for start, stop in [(0, case_count), (case_count, flags), (flags, count)]:
+        pool = [n % len(SCENARIOS) for n in range(start, stop)]
+        prefix = list(range(min(4, case_count))) if start == 0 else []
+        for kind in prefix:
+            pool.remove(kind)
+        rng.shuffle(pool)
+        result.extend(prefix + pool)
+    return result
+
+def academic_text(assessment, kind, number):
+    """Original academic work contains no review verdicts or future process facts."""
+    passages = [
+        "Attribution makes the origin of an argument visible and allows readers to inspect its supporting sources.",
+        "Responsible data use requires a clear purpose, proportionate collection, and an explanation of who benefits.",
+        "A dataset describes a selected population, so sampling choices affect the conclusions that can be drawn.",
+        "An algorithm is a finite sequence of steps whose assumptions determine which inputs it can handle.",
+        "An academic argument connects a specific claim to relevant observations and explains the limits of that connection.",
+    ]
+    passage = passages[assessment]
+    introduction = f"Study note {number % 97 + 1}. This discussion considers how a claim can be supported and tested in a practical setting."
+    if kind == 0:
+        body = f'Research Note A states, "{passage}" I use this principle to compare the assumptions in two examples.\n\nBibliography: Synthetic Research Note A, section {assessment + 1}.'
+    elif kind == 1:
+        body = f"Research question: identify the main assumption.\nMethod: compare two examples and record the relevant observations.\nDiscussion: {passage}\nConclusion: explain the limits of the available information."
+    elif kind == 2:
+        body = "I compare the starting assumptions in two examples before drawing a conclusion. Common technical terms help describe the problem, but each observation needs an explanation of how it supports the claim. A result from one setting may not apply to a different population or input."
+    elif kind == 3:
+        body = f'"{passage}" (Note A). My accompanying source notes identify the background reading. I compare this principle with the observations in two examples and discuss the limits of each explanation.'
+    else:
+        body = f"{passage} This principle can be applied to compare the assumptions in two examples and describe the limits of the available information."
+    return introduction + "\n\n" + body
 
 def generate(mode="full", seed=SEED):
     count, flags, case_count = SCALES[mode]
@@ -56,24 +94,28 @@ def generate(mode="full", seed=SEED):
     data["reviewerconflict"].append({"id": "COI-001", "reviewer_id": "REV-006", "learner_id": "LRN-00001",
                                       "reason": "Current academic supervisor of the learner."})
     learners = len(data["learner"])
+    kinds = scenario_order(count, flags, case_count, seed)
+    assessment_order = [n % len(titles) for n in range(count)]
+    random.Random(f"{seed}:assessments").shuffle(assessment_order)
     for n in range(1, count + 1):
         sid = f"SUB-2026-{n:06}"
-        aid = f"ASM-{(n-1)%5+1:03}"
+        assessment = assessment_order[n - 1]
+        aid = f"ASM-{assessment + 1:03}"
         adjusted = rng.randint(35, 65) if n <= case_count else rng.randint(20, 34) if n <= flags else rng.randint(0, 19)
         quoted, template = rng.randint(0, 15), rng.randint(0, 10)
         # Facts precede outcomes: independently authored, attributed quotations,
         # shared templates, initially missing attribution, or unattributed copying.
-        kind = (n - 1) % 5
+        kind = kinds[n - 1]
         is_violation = kind == 4
         facts = [
             "The overlap is a correctly attributed quotation; citation and bibliography match the source.",
             "The highlighted passage is an assignment template supplied to all learners.",
             "An independently written explanation shares common technical language with the source.",
-            "The initial report omits an attribution page; the learner supplies a dated original bibliography on appeal.",
+            "The submitted body mentions Note A, but its full attribution notes are absent from the initial comparison packet.",
             "The passage copies a synthetic source without quotation marks, attribution or an independent draft.",
         ][kind]
         data["submission"].append({"id": sid, "learner_id": f"LRN-{(n-1)%learners+1:05}", "assessment_id": aid,
-            "title": f"{titles[(n-1)%5]} — essay {n:05}", "content": "Synthetic academic submission. " + facts,
+            "title": f"{titles[assessment]} — essay {n:05}", "content": academic_text(assessment, kind, n),
             "submitted_at": at(n / count * 48)})
         data["similarityreport"].append({"id": f"SIM-{sid}-01", "submission_id": sid, "rule_id": "RULE-001",
             "raw_score": adjusted + quoted + template, "quoted_score": quoted, "template_score": template,
@@ -83,7 +125,7 @@ def generate(mode="full", seed=SEED):
             "triage_reason": "Historical human triage: adjusted overlap warrants formal context review." if n <= case_count else
                              "Historical triage reviewed the attributed or common material; no formal case required." if (flags+case_count)//2 < n <= flags else ""})
         truth.append({"submission_id": sid, "case_id": f"INT-2026-{n:06}" if n <= case_count else "",
-            "misconduct": is_violation, "scenario": ["legitimate_quotation", "shared_template", "false_positive", "successful_appeal", "unattributed_copying"][kind],
+            "misconduct": is_violation, "scenario": SCENARIOS[kind],
             "expected_final_outcome": "misconduct" if is_violation else "cleared", "process_anomaly": ""})
         if n <= case_count or (flags+case_count)//2 < n <= flags:
             report = data["similarityreport"][-1]
@@ -121,7 +163,7 @@ def generate(mode="full", seed=SEED):
                 evt("reviewer_assigned", 53, "Original reviewer assigned after conflict screening.", assignment_id)
         eid = f"EVD-{cid}-001"
         data["evidenceitem"].append({"id": eid, "case_id": cid, "title": "Source comparison and attribution notes",
-            "excerpt": facts if kind != 3 else "A passage overlaps the synthetic source; the attribution page is absent from the initial evidence bundle.",
+            "excerpt": facts,
             "source_reference": f"synthetic://source/{n:06}", "added_at": at(55), "added_by": "support", "supersedes_id": None})
         evt("evidence_added", 55, "Source comparison and attribution notes added with provenance.", eid, actor="support")
         if state in {"decided", "appeal", "closed"}:
@@ -244,7 +286,7 @@ def write_exports(directory, mode="full", seed=SEED):
         (directory / f"{table}.csv").write_text(stream.getvalue(), encoding="utf-8", newline="\n")
     (directory / "seed.sql").write_text("\n".join(db.iterdump()) + "\n", encoding="utf-8", newline="\n")
     db.close()
-    manifest = {"generator_version": 1, "seed": seed, "mode": mode, "source": "Entirely synthetic; no external learner data.",
+    manifest = {"generator_version": GENERATOR_VERSION, "seed": seed, "mode": mode, "source": "Entirely synthetic; no external learner data.",
                 "counts": {table: len(rows) for table, rows in data.items()},
                 "flagged_reports": sum(r["flagged"] for r in data["similarityreport"]),
                 "sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(directory.iterdir()) if p.is_file() and p.name != "manifest.json"}}

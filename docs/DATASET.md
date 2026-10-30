@@ -1,6 +1,6 @@
 # Synthetic dataset and evaluation
 
-Generator: `integrity/dataset.py`; seed **20261022**. Full mode has **10,000 submissions / 1,000 flags / 300 cases**; starter has **100 / 10 / 3**. Each submission has one report. Full data includes 2,000 learners, five assessments, six reviewers, one rule version, conflicts, triage/assignment/evidence/decision/appeal/event records. Exact totals are in the manifest.
+Generator: `integrity/dataset.py`, **generator revision 2**; seed **20261022**. This dataset revision is separate from application release tags. Full mode has **10,000 submissions / 1,000 flags / 300 cases**; starter has **100 / 10 / 3**. Each submission has one report. Full data includes 2,000 learners, five assessments, six reviewers, one rule version, conflicts, triage/assignment/evidence/decision/appeal/event records. Exact totals are in the manifest.
 
 ## Rules and scenarios
 
@@ -8,7 +8,7 @@ Flag means adjusted overlap at or above its threshold snapshot. In integer perce
 
 First 300 full-mode reports have adjusted scores 35–65, next 700 have 20–34, remaining 9,000 have 0–19. Threshold 20 creates 1,000 distinct flags. Historical human triage opens cases at ≥35 with a reason, yielding 300 cases. Remaining flags split into 350 pending and 350 recorded dismissals. These are synthetic assumptions, not assessor-supplied misconduct rules. Live case creation always requires human triage.
 
-Five equally distributed scenario families cycle by submission number. Facts are assigned first; outcomes derive from them rather than independent random labels:
+Five equally distributed scenario families use a seeded shuffled plan within each score stratum (cases, remaining flags, unflagged work). The four walkthroughs reserve their established families; remaining positions are shuffled. A separately seeded assessment plan shuffles an equally sized pool of each assessment. Score generation has its own stream. Learner IDs retain stable joins across five submissions each in full mode, without the old repeated learner/scenario mapping. Outcomes derive from documented scenario facts rather than unrelated random labels:
 
 | Scenario | Source fact | Resolved historical outcome |
 |---|---|---|
@@ -22,6 +22,10 @@ Randomness varies score components inside scenario ranges. Pending cases retain 
 
 Interactive submission/case counters start above the full reserved baseline ranges, even in starter mode, to avoid collisions; gaps are intentional. Evidence counters are per-case. Supporting entities use stable table-prefixed IDs where the statement does not prescribe a pattern.
 
+Original submissions contain short fictional academic passages, quotation/bibliography or structured assignment text, rather than a description of a finding or later appeal. Source-comparison observations belong to evidence records. For omitted attribution, the initial packet lacks full notes; the dated bibliography appears after the original finding and before the appeal decision. Original decision links never cite that later item.
+
+For the default full dataset, every assessment contains every scenario family, including in case and flag subsets. Each assessment has 2,000 submissions; misconduct truth counts are 442, 376, 389, 412 and 381 across ASM-001 through ASM-005. None determines the outcome. There are 1,342 mixed-outcome learners among 2,000. The evaluation report records the full assessment/scenario table and mixed-learner count under `scenario_distribution`. These descriptive safeguards address the audited shortcuts; they do not prove statistical independence or real-world model quality.
+
 ## Negative fixtures and truth
 
 Generate a valid baseline, deep-copy complete relational case slices, then preserve these deliberate mutations in `negative_fixtures.json`. Foreign keys remain valid. They are never imported into the live app.
@@ -33,7 +37,7 @@ Generate a valid baseline, deep-copy complete relational case slices, then prese
 | unlogged_late_evidence | Earlier decision's evidence moved after decision with provenance event removed; detect timing/history mismatch |
 | nonindependent_appeal | Original reviewer assigned to and authors appeal; detect original participation |
 
-`validate(records)` consumes operational records only. `evaluate()` joins detections to separate `negative_ground_truth.json` afterward. `ground_truth.json` contains intended misconduct, scenario rule, expected final outcome and linked IDs. Labels and anomaly names are absent from operational models/features. The unsupported-finding detector does not establish how a real human reached a decision; it detects missing process support.
+`validate(records)` consumes operational records only. `evaluate()` joins detections to separate `negative_ground_truth.json` afterward. `ground_truth.json` contains intended misconduct, scenario rule, expected final outcome and linked IDs. Expected-label, scenario-family and anomaly-tag fields are absent from operational inputs. Actual human findings remain in dated Decision records; later appeal findings remain in their own history. Distribution summaries join truth only after records-only detection. The unsupported-finding detector does not establish how a real human reached a decision; it detects missing process support.
 
 ## Package and commands
 
@@ -47,7 +51,7 @@ Generate a valid baseline, deep-copy complete relational case slices, then prese
 
 CSV empty cells mean nullable/blank values according to SCHEMA.md; JSON uses null, SQL uses NULL and booleans 0/1. User links/passwords are excluded and attached separately during local setup.
 
-`python run.py` calls `seed_demo`: dependency-ordered, transactional import from the same generator, excluding truth and invalid fixtures. Seed completion is marked only on success. Later runs preserve data; unmarked existing submissions cause a refusal. Export commands never edit the live database.
+`python run.py` calls `seed_demo`: dependency-ordered, transactional import from the same generator, excluding truth and invalid fixtures. Fresh workspaces are marked `demo-v2` only on success. Later runs preserve data; legacy `demo-v1` workspaces print a refresh warning without rewriting cases or passwords. Unmarked existing submissions cause a refusal. See README for opening a separate `.local/generator-v2` workspace safely. Export commands never edit the live database.
 
 No external data, scraping, real learners, external source passages or dataset licensing obligations are involved. Institution, names, passages and academic findings are fictional. `synthetic://` references are identifiers, not URLs to fetch. Standard dependencies retain their own licenses; core work was newly authored with disclosed AI assistance.
 

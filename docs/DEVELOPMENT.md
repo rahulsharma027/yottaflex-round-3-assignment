@@ -16,6 +16,10 @@ The audit exposed cases whose learner had no login, while every decision require
 
 Reproduced the audit exploit with a failing regression before changing the service. Added a shared current-evidence replacement policy: learners need both ownership of the case and authorship of the item; staff retain existing correction permissions. EvidenceForm now requires the authenticated user, filters replacement choices through the shared policy and explains separate rebuttals. The service checks the same policy inside its versioned transaction. No historical rows or decision references are rewritten. Added five regression tests and updated the existing history test to use an authorized correction. F2 is handled as a separate commit after F1; later findings remain open.
 
+## Third prioritized audit fix: generator information boundaries
+
+Added failing regressions for future appeal text and assessment/scenario coupling, then introduced generator revision 2. Original submissions contain fictional academic passages; separate seeded shuffled scenario/assessment plans remove the audited metadata shortcuts while keeping walkthrough IDs stable. Source observations and later attribution evidence remain in dated records. Distribution summaries join truth only after records-only detection. Regenerated packaged exports/proof on Python 3.12 and 3.14. Legacy workspaces warn and preserve data/passwords, with a documented separate-workspace route. No schema migration was needed. F4's temporal validator gap remains open.
+
 ## 2026-10-30 — implementation session
 
 Reviewed AGENTS.md, challenge notes, assignment breakdown, reusable project prompt, reviewer experience, prompt history, and the existing Yotta remote. Original attachment files were not present; used their recorded interpretation and stated that limit. Copied supporting documentation into this repository so a reviewer needs no parent-folder files. Parent copies remain as preparation history.

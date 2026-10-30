@@ -214,6 +214,14 @@ def evaluate(data, truth, fixtures, negative_truth, mode="full"):
     def ratio(numerator, denominator):
         return round(numerator / denominator, 6) if denominator else None
     labels = {r["submission_id"]: r for r in truth}
+    # These descriptive summaries join truth only after records-only detection.
+    assessment_scenarios = defaultdict(Counter)
+    learner_outcomes = defaultdict(set)
+    for submission in data["submission"]:
+        if submission["id"] in labels:
+            label = labels[submission["id"]]
+            assessment_scenarios[submission["assessment_id"]][label["scenario"]] += 1
+            learner_outcomes[submission["learner_id"]].add(label["misconduct"])
     known = [r for r in data["similarityreport"] if r["submission_id"] in labels]
     flagged = [r for r in known if r["flagged"]]
     legitimate = [r for r in known if not labels[r["submission_id"]]["misconduct"]]
@@ -226,6 +234,11 @@ def evaluate(data, truth, fixtures, negative_truth, mode="full"):
     return {"baseline_findings": baseline, "negative_results": detected,
         "counts": {table: len(rows) for table, rows in data.items()},
         "scenario_coverage": dict(sorted(Counter(t["scenario"] for t in truth).items())),
+        "scenario_distribution": {
+            "by_assessment": {key: dict(sorted(values.items())) for key, values in sorted(assessment_scenarios.items())},
+            "learners_with_truth": len(learner_outcomes),
+            "learners_with_both_outcomes": sum(len(values) == 2 for values in learner_outcomes.values()),
+        },
         "metrics": {"flag_rate": ratio(len(flagged), len(known)),
             "flag_to_case_rate": ratio(len(data["case"]), len(flagged)),
             "flag_precision": ratio(sum(labels[r["submission_id"]]["misconduct"] for r in flagged), len(flagged)),

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
-from integrity.dataset import generate, TABLES, SEED
+from integrity.dataset import generate, TABLES, SEED, GENERATOR_VERSION
 from integrity.models import Learner, Profile, Reviewer, SeedState, Submission
 
 ACCOUNTS = [
@@ -23,9 +23,14 @@ class Command(BaseCommand):
         parser.add_argument("--mode", choices=["full", "starter"], default="full")
 
     def handle(self, *args, **options):
-        state = SeedState.objects.filter(pk="demo-v1").first()
+        state = SeedState.objects.filter(key__startswith="demo-v").first()
         if state:
             self.stdout.write(f"Preserving existing {state.mode} dataset and reviewer changes.")
+            if state.key != f"demo-v{GENERATOR_VERSION}":
+                self.stdout.write(self.style.WARNING(
+                    f"This workspace uses an earlier dataset. Fresh workspaces use generator v{GENERATOR_VERSION}. "
+                    "Choose a new YOTTA_LOCAL_DIR to inspect the refreshed dataset without replacing your existing cases."
+                ))
             return
         if Submission.objects.exists():
             raise CommandError("Database has unmarked data. Refusing to seed over it; use a new YOTTA_LOCAL_DIR.")
@@ -50,5 +55,5 @@ class Command(BaseCommand):
                 if record_id:
                     model = Learner if role == "learner" else Reviewer
                     model.objects.filter(pk=record_id).update(user=user)
-            SeedState.objects.create(key="demo-v1", mode=options["mode"], seed=SEED)
-        self.stdout.write(self.style.SUCCESS(f"Installed {options['mode']} dataset: {len(data['submission'])} submissions, {sum(r['flagged'] for r in data['similarityreport'])} flags, {len(data['case'])} cases."))
+            SeedState.objects.create(key=f"demo-v{GENERATOR_VERSION}", mode=options["mode"], seed=SEED)
+        self.stdout.write(self.style.SUCCESS(f"Installed generator v{GENERATOR_VERSION} {options['mode']} dataset: {len(data['submission'])} submissions, {sum(r['flagged'] for r in data['similarityreport'])} flags, {len(data['case'])} cases."))

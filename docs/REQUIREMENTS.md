@@ -16,8 +16,8 @@ Source: interpretation in PROJECT_BREAKDOWN.md and LLM_PROJECT_PROMPT.md. Origin
 | Required positive scenarios | Scenario facts; historical cases; demo guide | Coverage counts; full baseline |
 | Four negative scenarios | Isolated fixtures and separate process truth | Four expected type detections; zero baseline errors |
 | Required immutable IDs and joins | Generator/counters; FK models | Pattern, unique, FK and SQL checks |
-| Fixed seed, starter/full, reproducibility | Shared generator and two-run script | Byte/file-hash equality; seed variation |
-| Separate ground truth | External truth files; records-only detector | Feature-leakage test; post-detection evaluation |
+| Fixed seed, starter/full, reproducibility | Shared versioned generator and two-run script | Byte/file-hash equality; seed variation; Python 3.12/3.14 export comparison; legacy-workspace preservation |
+| Separate ground truth | External truth files; records-only detector; academic text separated from later process facts; separately shuffled scenario/assessment plans | Input-field/temporal-text checks, distribution guards, post-detection evaluation |
 | CSV/JSON/SQL, manifest and summary | data/full-dataset.zip; export command | SQL round-trip and recorded hashes |
 | Meaningful metrics | validation.py, DATASET.md formulas | Recorded actual denominators/results |
 | All five actor roles | Profile and service permissions | Ownership/access/assignment/CSRF tests |

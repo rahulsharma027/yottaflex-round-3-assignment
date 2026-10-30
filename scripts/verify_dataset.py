@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from integrity.dataset import canonical, generate, negative_fixtures, write_exports, SEED
+from integrity.dataset import canonical, generate, negative_fixtures, write_exports, SEED, GENERATOR_VERSION
 from integrity.validation import evaluate
 
 def main():
@@ -24,7 +24,7 @@ def main():
     fixtures = negative_fixtures(data)
     negative_truth = [{"fixture_id": f["fixture_id"], "expected_detection": f["fixture_id"]} for f in fixtures]
     report = evaluate(data, truth, fixtures, negative_truth, args.mode)
-    report["reproducibility"] = {"seed": SEED, "mode": args.mode, "counts_match": manifests[0]["counts"] == manifests[1]["counts"],
+    report["reproducibility"] = {"generator_version": GENERATOR_VERSION, "seed": SEED, "mode": args.mode, "counts_match": manifests[0]["counts"] == manifests[1]["counts"],
         "all_checksums_match": manifests[0]["sha256"] == manifests[1]["sha256"], "sha256": manifests[0]["sha256"]}
     report["execution"] = {"ran_at_utc": datetime.now(timezone.utc).isoformat(), "python": sys.version,
                            "elapsed_seconds": round(time.perf_counter() - started, 3)}
