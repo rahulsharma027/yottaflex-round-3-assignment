@@ -57,3 +57,11 @@ User prompt (verbatim):
 > I have analyzed the problem statement and assignment, go through docs and project prompt and start building the project component by component, and document all the thing and keep the repo clean as possible, as I have initialized /Yotta directory added a initial readme file and connected my remote public repository, move all the supporting docs if need to /Yotta, the reviewer will only have access to /Yotta.
 
 AI assistance: implemented the local application and dataset/evaluation tooling in Yotta, consolidated supporting documentation, ran checks and browser verification, and recorded results/limitations in VERIFICATION.md. See AI_USE.md for reliance and candidate-review status. Tool prompts/queries are summarized in IMPLEMENTATION_TOOL_LOG.md; exact tool payloads remain in the chat export and are not fully reproduced here. This record remains partial, with private material visibly redacted above.
+
+## 2026-10-30 - Codex - portal name
+
+User prompt (verbatim):
+
+> Change name to ACI (Academic Integrity) Portal By Yotta, it'll be good
+
+AI assistance: renamed the shared interface brand, login, browser metadata, footer, launcher display text and README. Ran the existing page-render check and Django system check; inspected desktop/phone layouts and refreshed branding screenshots. Repository/database paths remain stable so this display-name change preserves local configuration and records. This remains a partial prompt record; exact tool actions are available in the chat history.

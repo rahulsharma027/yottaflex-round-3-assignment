@@ -1,10 +1,10 @@
-# Yotta · Academic integrity, with context
+# ACI (Academic Integrity) Portal By Yotta
 
 A local workspace that takes synthetic similarity flags through human triage, evidence review, reasoned decisions, and independent appeals. A score starts a review; it never decides guilt.
 
 Built with Django, SQLite, and responsive custom templates. Everything required to run and review the project is in this repository; nothing depends on its parent directory.
 
-![Yotta workspace](docs/screenshots/workspace-desktop.png)
+![ACI Portal By Yotta workspace](docs/screenshots/workspace-desktop.png)
 
 ## Run locally
 

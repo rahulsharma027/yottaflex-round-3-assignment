@@ -58,7 +58,7 @@ def main():
     execute([python, "manage.py", "migrate", "--noinput"], env)
     execute([python, "manage.py", "seed_demo", "--mode", args.mode], env)
     credentials = json.loads((local / "demo-accounts.json").read_text(encoding="utf-8"))
-    print("\nYotta / local synthetic workspace\n", flush=True)
+    print("\nACI (Academic Integrity) Portal By Yotta / local synthetic workspace\n", flush=True)
     for username, password in credentials.items():
         print(f"  {username:18} {password}", flush=True)
     print(f"\nCredentials: {local / 'demo-accounts.json'} (keep private)\n", flush=True)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except KeyboardInterrupt:
-        print("\nYotta stopped. Your data is preserved.")
+        print("\nACI Portal stopped. Your data is preserved.")
     except (subprocess.CalledProcessError, OSError) as exc:
         print(f"\nSetup could not finish: {exc}\nFix the error above and rerun the same command; existing data is preserved.", file=sys.stderr)
         raise SystemExit(1)

@@ -1,11 +1,11 @@
 {% load static %}<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{{ title|default:"Welcome" }} · Yotta</title><meta name="description" content="A considered approach to academic integrity. Local synthetic case-management workspace.">
+<title>{{ title|default:"Welcome" }} · ACI (Academic Integrity) Portal By Yotta</title><meta name="application-name" content="ACI (Academic Integrity) Portal By Yotta"><meta name="description" content="ACI (Academic Integrity) Portal By Yotta. A considered approach to academic integrity. Local synthetic case-management workspace.">
 <link rel="stylesheet" href="{% static 'app.css' %}"><script src="{% static 'app.js' %}" defer></script></head>
 <body><a class="skip-link" href="#main">Skip to content</a>
 {% if user.is_authenticated %}<div class="app-shell">
 <aside class="sidebar" aria-label="Workspace navigation">
-<a class="brand" href="{% url 'cases' %}"><span class="brand-mark" aria-hidden="true">y.</span><span>yotta<span class="brand-caption">ACADEMIC INTEGRITY</span></span></a>
+{% include 'integrity/brand.html' with destination='cases' %}
 <button class="nav-toggle button secondary" type="button" aria-expanded="false" aria-controls="workspace-nav">Menu</button>
 <div class="workspace-label"><span class="workspace-symbol" aria-hidden="true">N</span><span>Northfield University<small>Synthetic demonstration</small></span></div>
 <nav id="workspace-nav" aria-label="Main"><span class="nav-label">WORKSPACE</span>
@@ -21,6 +21,6 @@
 <div class="local-label"><span class="live-dot"></span> Local workspace <span>·</span> Synthetic data</div></div></aside>
 <div class="content-shell"><header class="topbar"><div class="breadcrumbs">Workspace <span>/</span> {{ title }}</div><div class="identity"><span class="avatar">{{ user.username|first|upper }}</span><div><strong>{{ user.first_name|default:user.username }}</strong><small>{{ role_label }}</small></div><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-button" type="submit">Sign out</button></form></div></header>
 <main id="main" class="main" tabindex="-1">{% for message in messages %}<div class="toast {{ message.tags }}" role="status">{% include 'integrity/icon.html' with name='check' %} {{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main>
-<footer class="page-footer"><span>Yotta · A considered approach to academic integrity.</span><span>Local demo / All records are synthetic</span></footer></div></div>
+<footer class="page-footer"><span>ACI (Academic Integrity) Portal By Yotta</span><span>Local demo / All records are synthetic</span></footer></div></div>
 {% else %}<main id="main" class="auth-main" tabindex="-1">{% block auth_content %}{% endblock %}</main>{% endif %}
 </body></html>

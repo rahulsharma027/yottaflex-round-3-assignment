@@ -1,4 +1,4 @@
-/* Yotta: a warm institutional ledger. All assets are local; no build step. */
+/* ACI Portal By Yotta: a warm institutional ledger. All assets are local. */
 :root {
   --ink: #263e35;
   --forest: #203d32;
@@ -191,6 +191,17 @@ pre {
   font: italic 700 2.05rem Georgia;
   letter-spacing: -0.15em;
   padding-right: 0.3rem;
+}
+.brand-name {
+  font-size: 1.35rem;
+}
+.brand-byline {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #c2d0c5;
 }
 .brand-caption {
   display: block;

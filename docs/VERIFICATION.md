@@ -61,3 +61,7 @@ Interface-polish review scope: Django templates/plain CSS, primary queue/case fl
 Unauthenticated read-only HTTPS request to the configured GitHub repository returned **200**, its expected repository title, and a **Public** label. This verifies existing public access without an authenticated GitHub session. The new implementation is committed locally; it has not been pushed or submitted through the portal in this task.
 
 Still unverified: normal-install bootstrap on Python 3.12/3.13/3.14; macOS/Linux startup; literal network-disconnected workflow (assets/code have no external runtime dependencies, but no network adapter was disabled); dependency-install failure recovery by forced outage; missing-Python/version error simulation; sustained concurrent load; complete browser walkthrough using every role; candidate personal review; complete prompt export reconciliation; final comparison with absent source attachments; remote publication and portal submission.
+
+## Branding follow-up
+
+Renamed to **ACI (Academic Integrity) Portal By Yotta** at the user's request. `manage.py check` and the existing `test_all_pages_render_and_search_pagination_preserve_context` check passed on Python 3.14.10. Browser login/tab title and workspace branding were verified at desktop 1440×1000 and phone 375×812. Updated the desktop screenshot and added [phone branding](screenshots/branding-phone.png). Other original workflow screenshots retain their historical branding. No new schema or dataset changes were required.
