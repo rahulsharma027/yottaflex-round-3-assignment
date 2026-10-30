@@ -36,6 +36,8 @@ Environment: Windows / PowerShell, host CPython 3.15.1, Django 5.2.18. Source sn
 
 Times include local process/setup overhead and **cached dependency downloads**. They do not predict a cold internet connection's setup time. Raw setup logs contain generated passwords and remain in ignored artifacts, not this public repository. Python 3.15 is experimental under the chosen Django pin; recommended reviewer versions remain 3.12–3.14.
 
+Final packaging check: cloned the completed local repository at `9980067` using `git clone --no-hardlinks` into a new ignored verification directory. Its one-command setup (`run.py --setup-only`) passed in **19.83 s** on the same host, with all documentation/source present, ten generated accounts, all six active reviewers linked to accounts, exact full counts, and 650 audited triage actions. This was a real local Git clone; the public remote still has not received these commits. The agent-created working demo was refreshed to the same final schema/accounts after its initial database was backed up under ignored artifacts. Owned preview servers were stopped after verification.
+
 Initial sandbox attempts could not use network/socket access and could not clean a Windows temporary test directory. Retried with approved permissions; the successful results above come from those completed runs. An initial browser attempt occurred before the server was ready; the working preview used port 8001. No failed attempt is counted as a successful check.
 
 ## Browser and interface verification
