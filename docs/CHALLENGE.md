@@ -71,4 +71,4 @@
 - [ ] GitHub repository is public and accessible in a private browser window.
 - [ ] Repository URL is submitted through the portal before the deadline.
 
-Original attachments are absent from this checkout. This implementation session reviewed their recorded interpretation, not the original PDFs or pasted statement a second time. Final candidate reconciliation against the source remains necessary. The checklist above is a submission checklist, not a claim that every external action is complete.
+The initial implementation session used the recorded source interpretation. On 2026-10-31 the original pasted statement and both PDFs were recovered into [docs/source](source/README.md); the agent reread them for the disclosure/reasoning documentation. Final candidate source-to-implementation reconciliation remains necessary. The checklist above is a submission checklist, not a claim that every external action is complete.

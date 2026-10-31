@@ -1,6 +1,20 @@
-# Actual verification — 2026-10-30
+# Actual verification log
 
 Checks below were performed by the AI coding agent, not asserted as candidate personal review. All records used were synthetic. No production or portal action was taken.
+
+## Current evidence snapshot — 2026-10-31
+
+The latest recorded application run is **46 passing tests on Python 3.14.10** after F3 (`2a1ff3e`), described in **Audit F3 — generator revision 2** below. The current packaged reports record generator revision 2, 10,000 submissions / 1,000 flags / 300 cases, zero baseline findings, four designed fixture/type detections and matching export hashes on Python 3.12/3.14. These are prior agent-executed results; this documentation update does not rerun the application suite or browser checks.
+
+F1–F3 and the earlier manual guide were published to `main` through `f8cba96`; release tags remain separate historical snapshots. Statements below about unpublished code, 26/31/36/41 tests or older generator hashes describe their original stage and are not the current status. Portal submission remains unconfirmed. [AUDIT_FIXES.md](AUDIT_FIXES.md) retains F4–F6 as open/deferred.
+
+Rahul's confirmed code/documentation/audit review and interface feedback are now recorded in [CANDIDATE_REVIEW.md](ai/CANDIDATE_REVIEW.md). They do not transfer ownership of the agent-run tests to the candidate. The [reasoning guide](REASONING.md) explains what these checks demonstrate and their limits; the [original sources](source/README.md) were recovered into this repo on 2026-10-31.
+
+The sections that follow retain the historical environments, execution results, setup measurements, browser coverage and limitations rather than replacing them with a blanket pass claim.
+
+## Documentation reconciliation checks — 2026-10-31
+
+Verified 115 local Markdown link targets, the three recovered source-file SHA-256 values, 26 unique candidate-message identifiers and all non-redacted prompt text against the app responses. Both selected chat histories reached the end of pagination; the current clarification reply was added to the snapshot. Checked context-artifact paths, privacy redactions/patterns and the numeric proof claims against the existing JSON reports, including cross-runtime export hashes. Git whitespace validation passed. This is documentation verification; no new application-suite, browser or export-generation run is counted here.
 
 ## Automated and data checks
 

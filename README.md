@@ -93,16 +93,21 @@ On macOS/Linux replace `.venv/Scripts/python.exe` with `.venv/bin/python`. Tests
 
 ## Documentation and code
 
+Start with [Problem, decisions and evidence](docs/REASONING.md) for the reasoning behind the implementation. [AI disclosure](docs/ai/AI_USE.md) explains heavy Codex reliance; [Candidate review](docs/ai/CANDIDATE_REVIEW.md) records Rahul's confirmed review and product decisions separately from agent-executed checks. The [recovered prompt record](docs/ai/PROMPTS.json) and [original project sources](docs/source/README.md) are included with explicit coverage/privacy limits.
+
 | Document | Contents |
 |---|---|
+| [Reasoning](docs/REASONING.md) | Problem, assumptions, decisions, trade-offs, testing approach, evidence and limitations |
+| [Supplied sources](docs/source/README.md) | Original pasted statement, submission guidelines and FAQ, with checksums |
 | [Architecture](docs/ARCHITECTURE.md) | Components, ERD, lifecycle, permissions, decisions and limits |
 | [Schema](docs/SCHEMA.md) | Every application field, generated from model metadata |
 | [Dataset](docs/DATASET.md) | Scenario rules, provenance, exports, validation, metric formulas |
 | [Requirements](docs/REQUIREMENTS.md) | Requirement → implementation → evidence |
 | [Verification](docs/VERIFICATION.md) | Real checks, environment, setup measurements and unverified work |
 | [Development log](docs/DEVELOPMENT.md) | Component sequence and remaining work |
-| [AI disclosure](docs/ai/AI_USE.md) | Actual AI reliance and candidate review status |
-| [Prompt history](docs/ai/PROMPT_HISTORY.md) | Partial record and export limitations |
+| [AI disclosure](docs/ai/AI_USE.md) | AI contribution by area, heavy reliance, tools, coverage and privacy limits |
+| [Candidate review](docs/ai/CANDIDATE_REVIEW.md) | Confirmed code/documentation review, interface feedback, decisions and verification ownership |
+| [Prompt history](docs/ai/PROMPT_HISTORY.md) | Readable narrative and recovered two-chat user-message record; full session export limits |
 
 Code: `integrity/models.py` (schema), `services.py` (authorized transactional writes), `forms.py`/`views.py` (HTTP), `dataset.py`/`validation.py` (generation/evaluation), `tests/`, `templates/`, and `static/`. Restart the launcher after Python changes. Regenerate the field dictionary with `python scripts/document_schema.py` inside the virtual environment.
 

@@ -52,7 +52,11 @@ Meaningful local commits group workflow/interface, data/tests/proof, and documen
 
 ## Remaining handoff work
 
-Candidate must personally review, run and explain the implementation, and record that honestly. Reconcile the partial prompt record with complete exports from every AI tool used and compare requirements against original attachments. Version 1.1.0 collects the reviewed interface enhancements after the preserved 1.0.0 baseline. For subsequent work, check Git status and publish reviewed changes before portal submission. Verify the public remote, then submit its URL under the invitation's instructions before the deadline. See VERIFICATION.md for exact platform/testing limitations.
+Rahul's personal code/documentation/audit review and interface feedback are recorded in [CANDIDATE_REVIEW.md](ai/CANDIDATE_REVIEW.md); personal execution of automated/export checks is not claimed. The recovered two-chat user-message record and export boundaries are in [AI_USE.md](ai/AI_USE.md). Keep subsequent prompts/review activities current and perform the final requirement comparison against the [recovered sources](source/README.md). Version 1.1.0 remains the release tag for the interface enhancements after the preserved 1.0.0 baseline; later fixes/documentation are subsequent commits. F4–F6 remain open/deferred. Verify public access and submit the repository URL under the invitation's instructions before the deadline. See VERIFICATION.md for exact checks and remaining platform/testing limitations.
+
+## 2026-10-31 — transparent AI use and visible reasoning
+
+At the user's request, focused on submission documentation while deferring further audit fixes. Recovered both project chats' candidate-input messages and original context attachments, recorded privacy/export boundaries, expanded AI reliance by area and attributed candidate review from the actual conversation/confirmation. Added REASONING.md to connect the problem, assumptions, alternatives, decisions, regression approach, measured results and limitations. Updated README navigation and the latest verification snapshot so historical statements do not obscure current evidence. No source code, accounts, live records, generated dataset or release tags were changed.
 
 ## 2026-10-30 — portal branding
 

@@ -1,6 +1,6 @@
 # Requirement traceability
 
-Source: interpretation in PROJECT_BREAKDOWN.md and LLM_PROJECT_PROMPT.md. Original attachments are absent here; candidate reconciliation against them remains a final task.
+Sources: the [original statement, guidelines and FAQ](source/README.md), recovered into this repo on 2026-10-31, and the earlier interpretation in PROJECT_BREAKDOWN.md and LLM_PROJECT_PROMPT.md. [REASONING.md](REASONING.md) explains assumptions, decisions, trade-offs, evidence and limits. This matrix is a map to implementation/evidence, not an assertion that every requirement or audit finding is closed; candidate final source-to-implementation reconciliation remains a submission task.
 
 | Requirement / accepted priority | Implementation | Evidence |
 |---|---|---|
@@ -26,7 +26,8 @@ Source: interpretation in PROJECT_BREAKDOWN.md and LLM_PROJECT_PROMPT.md. Origin
 | Clear student/submission-first case files | Student facts, original work, section links, evidence/response/decisions/timeline and adjacent actions | Escaped-content/ownership test; desktop/phone/tablet inspection |
 | Simple non-destructive clone/run | run.py + README | Clean-copy and repeat-run verification |
 | All reviewer material within this repo | Source, docs, archive, evidence in Yotta | Clean-copy run without parent files |
-| AI prompts and reliance disclosure | docs/ai | Partial record explicit; export reconciliation pending |
+| AI prompts and reliance disclosure | docs/ai/AI_USE.md, PROMPT_HISTORY.md, PROMPTS.json and CANDIDATE_REVIEW.md | Recovered candidate-input messages from both project chats; candidate confirms code/documentation review and Codex-only use; full session/context export limitations explicit |
+| Visible reasoning | docs/REASONING.md, ARCHITECTURE.md, DATASET.md and VERIFICATION.md | Problem, assumptions, choices/trade-offs, checks/results, verification ownership and remaining gaps |
 | Meaningful history and clean repository | Component commits; gitignore | Tracked-file/diff inspection |
 | Public GitHub and portal submission | Existing remote in README | Publication/submission status in VERIFICATION.md |
 

@@ -2,9 +2,11 @@
 
 ## Coverage and limitations
 
-This is a manually maintained, partial record of user prompts visible in this Codex chat. It is not a complete tool/session export and does not establish coverage of other AI tools or chats. AI responses are omitted, as permitted by the FAQ. Before submission, reconcile this record with available chat exports and record prompts from every other AI tool used. Do not invent missing prompts, dates, or personal review actions.
+This is a manually maintained narrative of project prompts and AI assistance. On 2026-10-31 it was reconciled with the app's user-message record for both project chats: **Prepare for YottaFlex hackathon** and **Build Yotta challenge project**. [PROMPTS.json](PROMPTS.json) preserves the **26 recovered candidate-input messages**, including clarification replies, through the candidate's code-review confirmation in the current documentation turn. Pagination was exhausted for both chats. This narrative is not an exact complete session export.
 
-Private recruitment correspondence and personal local paths are visibly omitted below. The omission is for safe publication; this record must not be described as an unredacted verbatim export. Dates are recorded to day precision because precise message timestamps were not supplied.
+Rahul reports Codex-only use; the earlier preparation chat is included even though his reply referred to “this Codex chat.” AI responses are omitted as permitted by FAQ question 6. The original [context attachments](../source/README.md) are included; complete historical tool/model instructions, automatic context and every tool payload are not exported. The [tool log](IMPLEMENTATION_TOOL_LOG.md) remains a summary. Future prompts must be appended; this snapshot is not a claim about undisclosed tools or later activity.
+
+Private recruitment correspondence and personal local paths are visibly omitted. Automatic browser context is marked as omitted in the recovered record; candidate-authored requests remain. Narrative dates retain day precision. PROMPTS.json now supplies app turn-start timestamps, which are not exact timestamps for individual later clarification messages. No missing prompts, review activities or dates are invented.
 
 ## 2026-10-30 - Codex - initial preparation
 
@@ -167,3 +169,56 @@ User prompt (verbatim):
 > we can do this later, just summarize the fixes we Implemented till now, with how can a reviewer go through them manually
 
 AI assistance: deferred further audit fixes and expanded the existing reviewer walkthrough with a summary of F1–F3, isolated-workspace setup, explicit role changes, manual actions and expected results. Retained the interface tour and complete review/appeal journey, and linked the guide from README and the audit tracker. Cross-checked instructions against the forms, services and stored verification report; documentation changes do not constitute a new browser run or test-suite execution. The latest recorded suite remains 46 passing tests. F4–F6, including complete prompt-history reconciliation and actual candidate review, remain open.
+
+## Recovered omissions from the earlier narrative — 2026-10-30
+
+The app record exposed the following candidate requests absent from earlier narrative entries. They are retained verbatim here and in PROMPTS.json; their dates come from the corresponding app turns rather than reconstruction.
+
+> In this project can we also login as every user? for example except:
+>  academic-admin, reviewer, second-reviewer, appeal-reviewer, reviewer-theo, reviewer-anika, reviewer-evan, learner, support, platform-admin
+
+AI assistance: explained the distinction between synthetic learner records and the ten demo accounts; no additional accounts were created by this explanation.
+
+> looking good, commit it to github
+
+AI assistance: committed and published the navy/blue theme; the Git history retains the actual commit and date.
+
+> with these fixed did we added more user login accounts?
+
+AI assistance: confirmed that F1–F3 retained ten demo accounts and that staff capture of external responses does not create learner logins.
+
+## 2026-10-31 - Codex - disclosure and reasoning assessment
+
+User prompt (verbatim):
+
+> are we good with:
+> USE LLMs TRANSPARENTLY
+> LLM tools are allowed. Submit your prompt history and explain where AI accelerated
+> your work, where you relied heavily on it, and what you personally reviewed,
+> changed, or validated.
+>
+>  and
+>
+> MAKE YOUR REASONING VISIBLE
+> Help reviewers understand the problem, assumptions, key decisions, trade-offs,
+> testing approach, limitations, and how you know the solution works.
+
+AI assistance: inspected the repository and explained that reasoning was substantially documented while prompt coverage and personal-review attribution were incomplete. No code or test execution was claimed from that read-only assessment.
+
+## 2026-10-31 - Codex - transparency and reasoning documentation
+
+User prompt (verbatim):
+
+> we can leave f4-f6 as of now, focus on the above things
+
+Clarification: Did you use any AI tools or separate chats for this assignment outside this Codex chat?
+
+User answer: Only this Codex chat.
+
+Clarification: Besides trying the interface and reporting the issues already in this chat, what have you personally reviewed, changed, or checked? Mention any code you read, tests you ran, or workflows you completed; “only the interface so far” is a valid answer.
+
+User answer (verbatim):
+
+> Apart from the interface, I have gone through the whole code base, integrity, scripts, static templates, all these things, and managements, migrations, and all the documentation that we generated, alongside with all the AI and architecture audits we have conducted throughout the project. Yeah, that's it.
+
+AI assistance: recovered user-message pages for the two project chats, retained a redacted machine-readable record and identified its export boundaries. Recovered the pasted statement and both PDFs into this repo, expanded AI reliance and candidate-review attribution, and added a reviewer-facing reasoning/evidence guide and current verification snapshot. Personal review is attributed to Rahul's statements; automated/browser/export execution remains attributed to the agent. Documentation checks are distinct from the earlier 46-test result. F4–F6 remain open/deferred; no application behavior, accounts, live data or release tags changed.

@@ -2,7 +2,7 @@
 
 Audit baseline: `67a8ad0`, 2026-10-30. Findings are addressed separately, with verification and a commit before moving to the next item. The initial 31-test suite passed despite the reproduced gaps; passing it alone was insufficient.
 
-For setup, role switches and expected pass/fail observations, use the [manual reviewer walkthrough](WALKTHROUGH.md#completed-audit-fixes-manual-checks). F4–F6 are deferred; this documentation update does not implement additional fixes.
+For setup, role switches and expected pass/fail observations, use the [manual reviewer walkthrough](WALKTHROUGH.md#completed-audit-fixes-manual-checks). F4–F6 remain open/deferred. The 2026-10-31 [AI disclosure](ai/AI_USE.md), [candidate review](ai/CANDIDATE_REVIEW.md) and [reasoning guide](REASONING.md) improve documentation without claiming to close those findings or change application behavior.
 
 | Finding | Status | Required follow-up |
 |---|---|---|
@@ -11,7 +11,7 @@ For setup, role switches and expected pass/fail observations, use the [manual re
 | F3: future appeal information / perfect assessment-label correlation | Fixed and verified | Generator revision 2 separates academic text from process facts and mixes scenario/assessment assignments; archive/proof regenerated |
 | F4: late learner response accepted by validator | Open | Validate response-event chronology against decisions |
 | F5: mobile table semantics and secondary text contrast | Open | Restore accessible relationships and correct low-contrast text |
-| F6: prompt-history and personal-review reconciliation | Open | Reconcile available records and document actual candidate validation honestly |
+| F6: prompt-history and personal-review reconciliation | Open/deferred | Two-chat user-message record and candidate-confirmed review added; full session/context export limits remain explicit; keep subsequent records current |
 
 ## F1 — response reachability
 
